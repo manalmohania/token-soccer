@@ -16,7 +16,8 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	private boolean DEBUG = false;
 	private OrthographicCamera camera;
 	private float width, height;
-	private final float RADIUS = 5;
+	private final float RADIUS = 7;
+	private final float BALL_RADIUS = 3;
 	private World world;
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<Body> players = new ArrayList<Body>();
@@ -39,12 +40,58 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		Gdx.input.setInputProcessor(this);
 
-		players.add(createPlayer(width/4 - 50, height/4 - 50));
-		players.add(createPlayer(width/4 - 50, height/4 + 50));
-		players.add(createPlayer(width/4 + 50, height/4 - 50));
-		players.add(createPlayer(width/4 + 50, height/4 + 50));
+		createBoundary();
+		players.add(createPlayer(width/4 - 50, height/4 - 50, RADIUS));
+		players.add(createPlayer(width/4 - 50, height/4 + 50, RADIUS));
+		players.add(createPlayer(width/4 + 50, height/4 - 50, RADIUS));
+		players.add(createPlayer(width/4 + 50, height/4 + 50, RADIUS));
+		createPlayer(width / 4, height / 4, BALL_RADIUS);
 
 	}
+
+	private void createBoundary(){
+		FixtureDef fixtureDefVertical = new FixtureDef();
+		fixtureDefVertical.restitution = 0.8f;
+		fixtureDefVertical.friction = 0.8f;
+		PolygonShape polygonShape = new PolygonShape();
+		polygonShape.setAsBox(2, height/4);
+		fixtureDefVertical.shape = polygonShape;
+
+		FixtureDef fixtureDefHorizontal = new FixtureDef();
+		fixtureDefHorizontal.restitution = 0.8f;
+		fixtureDefHorizontal.friction = 0.8f;
+		PolygonShape polygonShape2 = new PolygonShape();
+		polygonShape2.setAsBox(height/4, 2);
+		fixtureDefHorizontal.shape = polygonShape2;
+
+		BodyDef leftDef = new BodyDef();
+		leftDef.type = BodyDef.BodyType.StaticBody;
+		leftDef.position.set(width/4-100, height/4);
+		Body left = world.createBody(leftDef);
+
+		BodyDef rightDef = new BodyDef();
+		rightDef.type = BodyDef.BodyType.StaticBody;
+		rightDef.position.set(width/4 + 100, height/4);
+		Body right = world.createBody(rightDef);
+
+		BodyDef upDef = new BodyDef();
+		upDef.type = BodyDef.BodyType.StaticBody;
+		upDef.position.set(width / 4,  7 * height / 16);
+		Body up = world.createBody(upDef);
+
+		BodyDef downDef = new BodyDef();
+		downDef.type = BodyDef.BodyType.StaticBody;
+		downDef.position.set(width / 4, 1 * height / 16);
+		Body down = world.createBody(downDef);
+
+		left.createFixture(fixtureDefVertical);
+		right.createFixture(fixtureDefVertical);
+		up.createFixture(fixtureDefHorizontal);
+		down.createFixture(fixtureDefHorizontal);
+		polygonShape.dispose();
+
+	}
+
 
 	@Override
 	public void render() {
@@ -71,7 +118,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		b2dr.dispose();
 	}
 
-	private Body createPlayer(float x, float y) {
+	private Body createPlayer(float x, float y, float radius) {
 		Body pBody;
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
@@ -81,7 +128,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		pBody = world.createBody(def);
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(RADIUS);
+		circleShape.setRadius(radius);
 		pBody.createFixture(circleShape, 1);
 		circleShape.dispose();
 		return pBody;
@@ -91,10 +138,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		for (Body body : players) {
 			float xPos = body.getPosition().x;
 			float yPos = body.getPosition().y;
-			System.out.println(x + " " + y + " " + xPos + " " + yPos);
 			if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
-				System.out.println("true");
-				// body.applyLinearImpulse(0, 1000, x, y, false);
 				return body;
 			}
 		}
@@ -145,7 +189,6 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		System.out.println("Touch down");
 		float x = Gdx.input.getX();
 		float y = height - Gdx.input.getY();
 		// the next line is a bit of a hack and might not always work
@@ -183,9 +226,10 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
 		float slope = (releaseY - lastY)/(releaseX - lastX);
-		System.out.println("slope:" + slope);
+		if (Float.isNaN(slope)) {
+			return true;
+		}
 		float angle = (float) Math.atan(slope);
-		System.out.println("angle:" + angle);
 		// check the quadrant in which touchup lies wrt touchdown
 		if (releaseX >= lastX) {
 			lastBody.applyLinearImpulse((float) (-1000 * len * Math.cos(angle)), (float) (-1000 * len * Math.sin(angle)), lastX, lastY, false);
