@@ -32,18 +32,17 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, width / 2, height / 2);
-		camera.position.set(25, 25, 0);
-		camera.update();
+
 
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		b2dr = new Box2DDebugRenderer();
 
 		Gdx.input.setInputProcessor(this);
 
-		players.add(createPlayer(0, 0));
-		players.add(createPlayer(0, 50));
-		players.add(createPlayer(50, 0));
-		players.add(createPlayer(50, 50));
+		players.add(createPlayer(width/4 - 50, height/4 - 50));
+		players.add(createPlayer(width/4 - 50, height/4 + 50));
+		players.add(createPlayer(width/4 + 50, height/4 - 50));
+		players.add(createPlayer(width/4 + 50, height/4 + 50));
 
 	}
 
