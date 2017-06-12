@@ -177,6 +177,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		// get the length of the distance between touchdown and touchup
 		// if the last click was on a token, make the shot
+		// arctan ranges from -pi/2 to pi/2
 		if (!lastClickOnBody) return true;
 		float releaseX = Gdx.input.getX()/2;
 		float releaseY = (height - Gdx.input.getY())/2;
@@ -186,7 +187,13 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		System.out.println("slope:" + slope);
 		float angle = (float) Math.atan(slope);
 		System.out.println("angle:" + angle);
-		lastBody.applyLinearImpulse((float) (1000 * len * Math.cos(angle)),(float) (1000 * len * Math.sin(angle)), lastX, lastY, false);
+		// check the quadrant in which touchup lies wrt touchdown
+		if (releaseX >= lastX) {
+			lastBody.applyLinearImpulse((float) (-1000 * len * Math.cos(angle)), (float) (-1000 * len * Math.sin(angle)), lastX, lastY, false);
+		}
+		else {
+			lastBody.applyLinearImpulse((float) (1000 * len * Math.cos(angle)), (float) (1000 * len * Math.sin(angle)), lastX, lastY, false);
+		}
 
 		return true;
 	}
