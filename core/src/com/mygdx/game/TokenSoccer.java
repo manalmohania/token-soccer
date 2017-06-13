@@ -21,6 +21,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	private World world;
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<Body> players = new ArrayList<Body>();
+	private Body ball;
 	private float lastX, lastY; // the latest x and y coords that were clicked by the mouse
 	private boolean lastClickOnBody; // this could probably be done without
 	private Body lastBody; // the last body that was clicked by the mouse
@@ -45,7 +46,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		players.add(createPlayer(width/4 - 50, height/4 + 50, RADIUS));
 		players.add(createPlayer(width/4 + 50, height/4 - 50, RADIUS));
 		players.add(createPlayer(width/4 + 50, height/4 + 50, RADIUS));
-		createPlayer(width / 4, height / 4, BALL_RADIUS);
+		ball = createPlayer(width / 4, height / 4, BALL_RADIUS);
 
 	}
 
@@ -82,7 +83,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		BodyDef rightDefUpper = new BodyDef();
 		rightDefUpper.type = BodyDef.BodyType.StaticBody;
-		rightDefUpper.position.set(7 * width / 16 , 3 * height/ 8);
+		rightDefUpper.position.set(7 * width / 16 , 3 * height /  8);
 		Body rightUpper = world.createBody(rightDefUpper);
 
 		BodyDef upDef = new BodyDef();
@@ -102,7 +103,6 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		up.createFixture(fixtureDefHorizontal);
 		down.createFixture(fixtureDefHorizontal);
 		polygonShape.dispose();
-
 	}
 
 
@@ -118,6 +118,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 	public void update(float deltaTime) {
 		world.step(deltaTime, 6, 2);
+		System.out.println(ball.getPosition().x > 7 *width /16);
 	}
 
 	@Override
