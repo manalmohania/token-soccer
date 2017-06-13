@@ -22,6 +22,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	private final float BALL_RADIUS = 3;
 	private World world;
 	private Box2DDebugRenderer b2dr;
+	// TODO different colors
 	private ArrayList<Body> p1_soccer_players = new ArrayList<Body>();
     private ArrayList<Body> p2_soccer_players = new ArrayList<Body>();
 	private float lastX, lastY; // the latest x and y coords that were clicked by the mouse
@@ -37,6 +38,8 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	public void create() {
         this.font = new BitmapFont();
         this.batch = new SpriteBatch();
+
+        isp1Turn = true;
 
 		width = Gdx.graphics.getWidth();
 		this.p1_goal = width / 16;
@@ -193,20 +196,25 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	}
 
 	private Body contains(float x, float y) {
-		for (Body body : p1_soccer_players) {
-			float xPos = body.getPosition().x;
-			float yPos = body.getPosition().y;
-			if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
-				return body;
+		if (isp1Turn) {
+			for (Body body : p1_soccer_players) {
+				float xPos = body.getPosition().x;
+				float yPos = body.getPosition().y;
+				if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
+					isp1Turn = !isp1Turn;
+					return body;
+				}
+			}
+		} else {
+			for (Body body : p2_soccer_players) {
+				float xPos = body.getPosition().x;
+				float yPos = body.getPosition().y;
+				if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
+					isp1Turn = !isp1Turn;
+					return body;
+				}
 			}
 		}
-        for (Body body : p2_soccer_players) {
-            float xPos = body.getPosition().x;
-            float yPos = body.getPosition().y;
-            if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
-                return body;
-            }
-        }
 		return null;
 	}
 
