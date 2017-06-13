@@ -25,13 +25,14 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	// TODO different colors
 	private ArrayList<Body> p1_soccer_players = new ArrayList<Body>();
     private ArrayList<Body> p2_soccer_players = new ArrayList<Body>();
+    private Body ball;
 	private float lastX, lastY; // the latest x and y coords that were clicked by the mouse
 	private boolean lastClickOnBody; // this could probably be done without
 	private Body lastBody; // the last body that was clicked by the mouse
 	private Player p1;
 	private Player p2;
 	private Boolean isp1Turn;
-	private Body ball;
+
     BitmapFont font;
     SpriteBatch batch;
 
@@ -61,7 +62,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		p1_soccer_players.add(createSoccerPlayer(width/4 - 50, height/4 + 50, RADIUS));
 		p2_soccer_players.add(createSoccerPlayer(width/4 + 50, height/4 - 50, RADIUS));
 		p2_soccer_players.add(createSoccerPlayer(width/4 + 50, height/4 + 50, RADIUS));
-		ball = createSoccerPlayer(width / 4, height / 4, BALL_RADIUS);
+		this.ball = createSoccerPlayer(width / 4, height / 4, BALL_RADIUS);
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -152,22 +153,26 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 	public void update(float deltaTime) {
 		world.step(deltaTime, 6, 2);
-		System.out.println(ball.getPosition().x >= 7 * width / 16 );
-		//TODO track ball x position for goal
-        /*
-        if (BALL_XPOSITION < p1_goal) {
+
+        if (ball.getPosition().x < p1_goal) {
             p2.scoreGoal();
             batch.begin();
             font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
             batch.end();
+            resetBallPosition();
         }
-        if (BALL_XPOSITION > p2_goal) {
+        if (ball.getPosition().x > p2_goal) {
             p1.scoreGoal();
             batch.begin();
             font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
             batch.end();
+            resetBallPosition();
         }
-        resetBallPostion();*/
+	}
+
+	public void resetBallPosition() {
+		ball.setTransform(width/4, height/4, 0);
+		ball.setLinearVelocity(new Vector2(0,0));
 	}
 
 	@Override
