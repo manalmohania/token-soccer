@@ -51,28 +51,39 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 	private void createBoundary(){
 		FixtureDef fixtureDefVertical = new FixtureDef();
-		fixtureDefVertical.restitution = 0.8f;
+		fixtureDefVertical.restitution = 1.1f;
 		fixtureDefVertical.friction = 0.8f;
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(2, height/4);
+		// polygonShape.setAsBox(2, 3 * height / 16);
+		polygonShape.setAsBox(2, height/16);
 		fixtureDefVertical.shape = polygonShape;
 
 		FixtureDef fixtureDefHorizontal = new FixtureDef();
-		fixtureDefHorizontal.restitution = 0.8f;
+		fixtureDefHorizontal.restitution = 1.1f;
 		fixtureDefHorizontal.friction = 0.8f;
 		PolygonShape polygonShape2 = new PolygonShape();
-		polygonShape2.setAsBox(height/4, 2);
+		polygonShape2.setAsBox(3 * width / 16, 2);
 		fixtureDefHorizontal.shape = polygonShape2;
 
-		BodyDef leftDef = new BodyDef();
-		leftDef.type = BodyDef.BodyType.StaticBody;
-		leftDef.position.set(width/4-100, height/4);
-		Body left = world.createBody(leftDef);
+		BodyDef leftDefLower = new BodyDef();
+		leftDefLower.type = BodyDef.BodyType.StaticBody;
+		leftDefLower.position.set(width / 16, height / 8);
+		Body leftLower = world.createBody(leftDefLower);
 
-		BodyDef rightDef = new BodyDef();
-		rightDef.type = BodyDef.BodyType.StaticBody;
-		rightDef.position.set(width/4 + 100, height/4);
-		Body right = world.createBody(rightDef);
+		BodyDef leftDefUpper = new BodyDef();
+		leftDefUpper.type = BodyDef.BodyType.StaticBody;
+		leftDefUpper.position.set(width / 16, 3 * height / 8);
+		Body leftUpper = world.createBody(leftDefUpper);
+
+		BodyDef rightDefLower = new BodyDef();
+		rightDefLower.type = BodyDef.BodyType.StaticBody;
+		rightDefLower.position.set(7 * width / 16 , height/ 8);
+		Body rightLower = world.createBody(rightDefLower);
+
+		BodyDef rightDefUpper = new BodyDef();
+		rightDefUpper.type = BodyDef.BodyType.StaticBody;
+		rightDefUpper.position.set(7 * width / 16 , 3 * height/ 8);
+		Body rightUpper = world.createBody(rightDefUpper);
 
 		BodyDef upDef = new BodyDef();
 		upDef.type = BodyDef.BodyType.StaticBody;
@@ -81,11 +92,13 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		BodyDef downDef = new BodyDef();
 		downDef.type = BodyDef.BodyType.StaticBody;
-		downDef.position.set(width / 4, 1 * height / 16);
+		downDef.position.set(width / 4, height / 16);
 		Body down = world.createBody(downDef);
 
-		left.createFixture(fixtureDefVertical);
-		right.createFixture(fixtureDefVertical);
+		leftLower.createFixture(fixtureDefVertical);
+		leftUpper.createFixture(fixtureDefVertical);
+		rightLower.createFixture(fixtureDefVertical);
+		rightUpper.createFixture(fixtureDefVertical);
 		up.createFixture(fixtureDefHorizontal);
 		down.createFixture(fixtureDefHorizontal);
 		polygonShape.dispose();
@@ -123,7 +136,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		def.position.set(x, y);
-		def.linearDamping = 0.4f;
+		def.linearDamping = 0.6f;
 		def.fixedRotation = true;
 
 		pBody = world.createBody(def);
