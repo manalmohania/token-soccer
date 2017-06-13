@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -16,20 +17,33 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	private boolean DEBUG = false;
 	private OrthographicCamera camera;
 	private float width, height;
+	private float p1_goal, p2_goal; // x positions
 	private final float RADIUS = 7;
 	private final float BALL_RADIUS = 3;
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	private ArrayList<Body> players = new ArrayList<Body>();
-	private Body ball;
+	// TODO different colors
+	private ArrayList<Body> p1_soccer_players = new ArrayList<Body>();
+    private ArrayList<Body> p2_soccer_players = new ArrayList<Body>();
 	private float lastX, lastY; // the latest x and y coords that were clicked by the mouse
 	private boolean lastClickOnBody; // this could probably be done without
 	private Body lastBody; // the last body that was clicked by the mouse
-
+	private Player p1;
+	private Player p2;
+	private Boolean isp1Turn;
+    BitmapFont font;
+    SpriteBatch batch;
 
 	@Override
 	public void create() {
+        this.font = new BitmapFont();
+        this.batch = new SpriteBatch();
+
+        isp1Turn = true;
+
 		width = Gdx.graphics.getWidth();
+		this.p1_goal = width / 16;
+		this.p2_goal = 7 * width / 16;
 		height = Gdx.graphics.getHeight();
 
 		camera = new OrthographicCamera();
@@ -42,12 +56,24 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		Gdx.input.setInputProcessor(this);
 
 		createBoundary();
-		players.add(createPlayer(width/4 - 50, height/4 - 50, RADIUS));
-		players.add(createPlayer(width/4 - 50, height/4 + 50, RADIUS));
-		players.add(createPlayer(width/4 + 50, height/4 - 50, RADIUS));
-		players.add(createPlayer(width/4 + 50, height/4 + 50, RADIUS));
-		ball = createPlayer(width / 4, height / 4, BALL_RADIUS);
+		p1_soccer_players.add(createSoccerPlayer(width/4 - 50, height/4 - 50, RADIUS));
+		p1_soccer_players.add(createSoccerPlayer(width/4 - 50, height/4 + 50, RADIUS));
+		p2_soccer_players.add(createSoccerPlayer(width/4 + 50, height/4 - 50, RADIUS));
+		p2_soccer_players.add(createSoccerPlayer(width/4 + 50, height/4 + 50, RADIUS));
+		createSoccerPlayer(width / 4, height / 4, BALL_RADIUS);
 
+		// Temporarily putting here
+		String name1 = "Bob";
+		String name2 = "Bob2";
+		Boolean isp1Bot = false;
+		Boolean isp2Bot = false;
+		createPlayers(name1, name2, isp1Bot, isp2Bot);
+	}
+
+	private void createPlayers(String name1, String name2, Boolean isp1Bot, Boolean isp2Bot) {
+		// indicates if bot player
+		this.p1 = new Player(name1, isp1Bot);
+		this.p2 = new Player(name2, isp2Bot);
 	}
 
 	private void createBoundary(){
@@ -83,7 +109,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 		BodyDef rightDefUpper = new BodyDef();
 		rightDefUpper.type = BodyDef.BodyType.StaticBody;
-		rightDefUpper.position.set(7 * width / 16 , 3 * height /  8);
+		rightDefUpper.position.set(7 * width / 16 , 3 * height/ 8);
 		Body rightUpper = world.createBody(rightDefUpper);
 
 		BodyDef upDef = new BodyDef();
@@ -105,7 +131,6 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		polygonShape.dispose();
 	}
 
-
 	@Override
 	public void render() {
 		update(Gdx.graphics.getDeltaTime());
@@ -114,11 +139,33 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		b2dr.render(world, camera.combined);
+
+		batch.begin();
+		//TODO some function that correctly positons
+		font.draw(batch, p1.getName(), 0,height);
+		font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
+		font.draw(batch, p2.getName(), width-100,height);
+		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
+		batch.end();
 	}
 
 	public void update(float deltaTime) {
 		world.step(deltaTime, 6, 2);
-		System.out.println(ball.getPosition().x > 7 *width /16);
+	    //TODO track ball x position for goal
+        /*
+        if (BALL_XPOSITION < p1_goal) {
+            p2.scoreGoal();
+            batch.begin();
+            font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
+            batch.end();
+        }
+        if (BALL_XPOSITION > p2_goal) {
+            p1.scoreGoal();
+            batch.begin();
+            font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
+            batch.end();
+        }
+        resetBallPostion();*/
 	}
 
 	@Override
@@ -132,7 +179,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		b2dr.dispose();
 	}
 
-	private Body createPlayer(float x, float y, float radius) {
+	private Body createSoccerPlayer(float x, float y, float radius) {
 		Body pBody;
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
@@ -149,11 +196,23 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	}
 
 	private Body contains(float x, float y) {
-		for (Body body : players) {
-			float xPos = body.getPosition().x;
-			float yPos = body.getPosition().y;
-			if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
-				return body;
+		if (isp1Turn) {
+			for (Body body : p1_soccer_players) {
+				float xPos = body.getPosition().x;
+				float yPos = body.getPosition().y;
+				if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
+					isp1Turn = !isp1Turn;
+					return body;
+				}
+			}
+		} else {
+			for (Body body : p2_soccer_players) {
+				float xPos = body.getPosition().x;
+				float yPos = body.getPosition().y;
+				if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= RADIUS * RADIUS) {
+					isp1Turn = !isp1Turn;
+					return body;
+				}
 			}
 		}
 		return null;
