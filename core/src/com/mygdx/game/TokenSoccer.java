@@ -31,6 +31,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 	private Player p1;
 	private Player p2;
 	private Boolean isp1Turn;
+	private Body ball;
     BitmapFont font;
     SpriteBatch batch;
 
@@ -60,7 +61,7 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 		p1_soccer_players.add(createSoccerPlayer(width/4 - 50, height/4 + 50, RADIUS));
 		p2_soccer_players.add(createSoccerPlayer(width/4 + 50, height/4 - 50, RADIUS));
 		p2_soccer_players.add(createSoccerPlayer(width/4 + 50, height/4 + 50, RADIUS));
-		createSoccerPlayer(width / 4, height / 4, BALL_RADIUS);
+		ball = createSoccerPlayer(width / 4, height / 4, BALL_RADIUS);
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -151,7 +152,8 @@ public class TokenSoccer extends ApplicationAdapter implements InputProcessor {
 
 	public void update(float deltaTime) {
 		world.step(deltaTime, 6, 2);
-	    //TODO track ball x position for goal
+		System.out.println(ball.getPosition().x >= 7 * width / 16 );
+		//TODO track ball x position for goal
         /*
         if (BALL_XPOSITION < p1_goal) {
             p2.scoreGoal();
