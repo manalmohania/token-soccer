@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Tokens.BallToken;
 import com.mygdx.game.Tokens.PlayerToken;
 import com.mygdx.game.Tokens.Token;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,7 +29,7 @@ public class TokenSoccer extends Game {
 	private Player p1, p2;
 	private Players players;
 	private Random random = new Random();
-	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture;
+	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft;
 	private BitmapFont font;
     private SpriteBatch batch;
 
@@ -63,6 +62,7 @@ public class TokenSoccer extends Game {
         woodHTexture = new Texture("wood_480x25.png");
         woodVTexture = new Texture("wood_30x160.png");
 		fieldTexture = new Texture("field-480x360.png");
+		goalRight = new Texture("goal-60x100.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -154,6 +154,7 @@ public class TokenSoccer extends Game {
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
 		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
 		batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
+		batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight()/2);
         ball.draw(batch, ballTexture);
 		for (int i = 0; i < p1.tokens.size(); i++) {
 		    p1.tokens.get(i).draw(batch, p1Texture);
@@ -202,6 +203,15 @@ public class TokenSoccer extends Game {
 		}
 	}
 
+	public boolean atRest() {
+	    if (! ball.token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        for (int i = 0; i < p1.tokens.size(); i++) {
+            if (! p1.tokens.get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+            if (! p2.tokens.get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        }
+	    return true;
+    }
+
 	private void reset() {
 		ball.changePosition(ball.initialPosition.x, ball.initialPosition.y);
 		for (int i = 0; i < 2; i++) {
@@ -222,11 +232,12 @@ public class TokenSoccer extends Game {
 		world.dispose();
 		b2dr.dispose();
 		batch.dispose();
-		ballTexture.dispose();
+        ballTexture.dispose();
         p1Texture.dispose();
         p2Texture.dispose();
         woodVTexture.dispose();
         woodHTexture.dispose();
+        fieldTexture.dispose();
         Token.dispose();
 	}
 }
