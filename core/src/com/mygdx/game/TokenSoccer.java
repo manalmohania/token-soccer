@@ -15,6 +15,14 @@ import com.mygdx.game.Tokens.Token;
 import java.util.ArrayList;
 import java.util.Random;
 
+// TODO - create the goal images
+// TODO - ensure that ball does not stick to side walls
+// TODO - next shot played only after system at rest
+// TODO - some more refactoring
+// TODO - menus
+// TODO - sound
+// TODO - network stuff
+
 public class TokenSoccer extends Game {
 	private boolean DEBUG = false;
 	private OrthographicCamera camera;
@@ -22,7 +30,6 @@ public class TokenSoccer extends Game {
 	private float p1_goal, p2_goal;
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	// TODO different colors
 	private ArrayList<PlayerToken> p1_soccer_players = new ArrayList<PlayerToken>();
     private ArrayList<PlayerToken> p2_soccer_players = new ArrayList<PlayerToken>();
     private BallToken ball;
