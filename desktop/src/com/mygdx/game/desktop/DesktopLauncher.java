@@ -11,5 +11,6 @@ public class DesktopLauncher {
 		config.height = 400;
 		config.width = 500;
 		new LwjglApplication(new TokenSoccer(), config);
+		//new LwjglApplication(new Menu(new TokenSoccer()), config);
 	}
 }
