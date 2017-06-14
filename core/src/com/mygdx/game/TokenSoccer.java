@@ -149,6 +149,7 @@ public class TokenSoccer extends ApplicationAdapter {
 		font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
 		font.draw(batch, p2.getName(), width-100,height);
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
+		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
 		batch.end();
 	}
 
@@ -179,6 +180,10 @@ public class TokenSoccer extends ApplicationAdapter {
 			if (token.token.getPosition().x < p1_goal || token.token.getPosition().x > p2_goal) {
 				token.changePosition(p1_goal + random.nextFloat() * (p2_goal - p1_goal), random.nextFloat() * (6 * height / 16) + height / 16);
 			}
+		}
+
+		if (!players.getTimer().timeRemaining()) {
+			players.toggleTurns();
 		}
 	}
 
