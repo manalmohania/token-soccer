@@ -1,7 +1,6 @@
 package com.mygdx.game.Tokens;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,6 +16,7 @@ public abstract class Token {
     public Vector2 initialPosition;
     public float radius;
     public Body token;
+    protected static Texture background = new Texture("ring-33.png");
 
     public Token(World world, Vector2 initialPosition, float radius) {
         this.world = world;

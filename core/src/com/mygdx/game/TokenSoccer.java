@@ -61,8 +61,8 @@ public class TokenSoccer extends ApplicationAdapter {
 
         // TODO: the blue ball player seems to be bigger than the red one; make the sizes equals
 		ballTexture = new Texture("ball.png");
-		p1Texture = new Texture("red_circle.png");
-		p2Texture = new Texture("blue_circle.png");
+		p1Texture = new Texture("spain-32.png");
+		p2Texture = new Texture("germany-32.png");
         woodHTexture = new Texture("wood_480x25.png");
         woodVTexture = new Texture("wood_30x160.png");
 
