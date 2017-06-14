@@ -32,9 +32,9 @@ public class TokenSoccer extends ApplicationAdapter {
 	private Player p2;
 	private Players players;
 	private Random random = new Random();
-	private Events eventHandler;
+	private Texture texture;
 
-    BitmapFont font;
+	BitmapFont font;
     SpriteBatch batch;
 
 	@Override
@@ -61,6 +61,8 @@ public class TokenSoccer extends ApplicationAdapter {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50)));
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
+		texture = new Texture("ball.png");
+
 		// Temporarily putting here
 		String name1 = "Bob";
 		String name2 = "Bob2";
@@ -68,7 +70,7 @@ public class TokenSoccer extends ApplicationAdapter {
 		Boolean isp2Bot = false;
 		createPlayers(name1, name2, isp1Bot, isp2Bot);
 
-	 	eventHandler = new Events(players);
+		Events eventHandler = new Events(players);
 		Gdx.input.setInputProcessor(eventHandler);
 	}
 
@@ -150,6 +152,7 @@ public class TokenSoccer extends ApplicationAdapter {
 		font.draw(batch, p2.getName(), width-100,height);
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
 		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
+		batch.draw(texture, ball.token.getPosition().x * 2 - (texture.getWidth()/2) , ball.token.getPosition().y * 2 - (texture.getHeight() / 2));
 		batch.end();
 	}
 
@@ -206,5 +209,7 @@ public class TokenSoccer extends ApplicationAdapter {
 	public void dispose() {
 		world.dispose();
 		b2dr.dispose();
+		batch.dispose();
+		texture.dispose();
 	}
 }

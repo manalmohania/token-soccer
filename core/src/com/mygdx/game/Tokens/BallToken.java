@@ -10,6 +10,6 @@ public class BallToken extends Token{
 
     public BallToken(World world, Vector2 initialPos){
         // 3 is the radius of the ball -- will probably increase its size in the end
-        super(world, initialPos, 3);
+        super(world, initialPos, 3.5f);
     }
 }
