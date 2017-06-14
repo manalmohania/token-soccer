@@ -61,7 +61,7 @@ public class TokenSoccer extends Game {
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
         // TODO: the blue ball player seems to be bigger than the red one; make the sizes equals
-		String path = "core/assets/";
+		String path = "";
 		ballTexture = new Texture(path + "ball.png");
 		p1Texture = new Texture(path + "red_circle.png");
 		p2Texture = new Texture(path + "blue_circle.png");
@@ -225,5 +225,10 @@ public class TokenSoccer extends Game {
 		b2dr.dispose();
 		batch.dispose();
 		ballTexture.dispose();
+        p1Texture.dispose();
+        p2Texture.dispose();
+        woodVTexture.dispose();
+        woodHTexture.dispose();
+        Token.dispose();
 	}
 }

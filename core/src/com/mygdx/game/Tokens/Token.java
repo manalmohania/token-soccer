@@ -50,4 +50,8 @@ public abstract class Token {
         batch.draw(texture, token.getPosition().x * 2 - texture.getWidth()/2, token.getPosition().y * 2 - texture.getHeight()/2);
     }
 
+    public static void dispose() {
+        background.dispose();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tokens.PlayerToken;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -33,8 +34,13 @@ public class Player {
         }
     }
 
-    public int getScore() {return score;}
-    public String getName() {return name;}
+    public int getScore() {
+        return score;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public void scoreGoal() {
         this.score ++;
@@ -43,4 +49,5 @@ public class Player {
     public void resetGoal() {
         this.score = 0;
     }
+
 }
