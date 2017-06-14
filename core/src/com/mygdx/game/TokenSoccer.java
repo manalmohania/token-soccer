@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,7 +17,7 @@ import com.mygdx.game.Tokens.Token;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TokenSoccer extends ApplicationAdapter {
+public class TokenSoccer extends Game {
 	private boolean DEBUG = false;
 	private OrthographicCamera camera;
 	private float width, height;
@@ -60,11 +61,12 @@ public class TokenSoccer extends ApplicationAdapter {
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
         // TODO: the blue ball player seems to be bigger than the red one; make the sizes equals
-		ballTexture = new Texture("ball.png");
-		p1Texture = new Texture("spain-32.png");
-		p2Texture = new Texture("germany-32.png");
-        woodHTexture = new Texture("wood_480x25.png");
-        woodVTexture = new Texture("wood_30x160.png");
+		String path = "core/assets/";
+		ballTexture = new Texture(path + "ball.png");
+		p1Texture = new Texture(path + "red_circle.png");
+		p2Texture = new Texture(path + "blue_circle.png");
+        woodHTexture = new Texture(path + "wood_480x25.png");
+        woodVTexture = new Texture(path + "wood_30x160.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
