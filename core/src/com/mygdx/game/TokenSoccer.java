@@ -20,21 +20,20 @@ public class TokenSoccer extends ApplicationAdapter {
 	private boolean DEBUG = false;
 	private OrthographicCamera camera;
 	private float width, height;
-	private float p1_goal, p2_goal; // x positions
+	private float p1_goal, p2_goal;
 	private World world;
 	private Box2DDebugRenderer b2dr;
 	// TODO different colors
 	private ArrayList<PlayerToken> p1_soccer_players = new ArrayList<PlayerToken>();
     private ArrayList<PlayerToken> p2_soccer_players = new ArrayList<PlayerToken>();
-    private BallToken ball; // private Body ball;
+    private BallToken ball;
 	private Player p1;
 	private Player p2;
 	private Players players;
 	private Random random = new Random();
-	private Texture ballTexture, p1Texture, p2Texture;
-
-	BitmapFont font;
-    SpriteBatch batch;
+	private Texture ballTexture, p1Texture, p2Texture, woodTexture;
+	private BitmapFont font;
+    private SpriteBatch batch;
 
 	@Override
 	public void create() {
@@ -60,9 +59,11 @@ public class TokenSoccer extends ApplicationAdapter {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50)));
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
+        // TODO: the blue ball player seems to be bigger than the red one; make the sizes equals
 		ballTexture = new Texture("ball.png");
 		p1Texture = new Texture("red_circle.png");
 		p2Texture = new Texture("blue_circle.png");
+        woodTexture = new Texture("wood.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -87,7 +88,6 @@ public class TokenSoccer extends ApplicationAdapter {
 		fixtureDefVertical.restitution = 1.1f;
 		fixtureDefVertical.friction = 0.8f;
 		PolygonShape polygonShape = new PolygonShape();
-		// polygonShape.setAsBox(2, 3 * height / 16);
 		polygonShape.setAsBox(2, height/16);
 		fixtureDefVertical.shape = polygonShape;
 
@@ -153,12 +153,10 @@ public class TokenSoccer extends ApplicationAdapter {
 		font.draw(batch, p2.getName(), width-100,height);
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
 		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
-		batch.draw(ballTexture, ball.token.getPosition().x * 2 - (ballTexture.getWidth()/2) , ball.token.getPosition().y * 2 - (ballTexture.getHeight() / 2));
+        ball.draw(batch, ballTexture);
 		for (int i = 0; i < p1.tokens.size(); i++) {
-			batch.draw(p1Texture, p1.tokens.get(i).token.getPosition().x * 2 - (p1Texture.getWidth()/2), p1.tokens.get(i).token.getPosition().y * 2 - p1Texture.getHeight()/2);
-		}
-		for (int i = 0; i < p2.tokens.size(); i++) {
-			batch.draw(p2Texture, p2.tokens.get(i).token.getPosition().x * 2 - (p2Texture.getWidth()/2), p2.tokens.get(i).token.getPosition().y * 2 - p2Texture.getHeight()/2);
+		    p1.tokens.get(i).draw(batch, p1Texture);
+            p2.tokens.get(i).draw(batch, p2Texture);
 		}
 		batch.end();
 	}

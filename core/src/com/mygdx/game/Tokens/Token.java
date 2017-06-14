@@ -1,5 +1,8 @@
 package com.mygdx.game.Tokens;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -41,6 +44,10 @@ public abstract class Token {
     public void changePosition(float newX, float newY) {
         this.token.setTransform(newX, newY, 0);
         this.token.setLinearVelocity(0, 0);
+    }
+
+    public void draw(SpriteBatch batch, Texture texture) {
+        batch.draw(texture, token.getPosition().x * 2 - texture.getWidth()/2, token.getPosition().y * 2 - texture.getHeight()/2);
     }
 
 }
