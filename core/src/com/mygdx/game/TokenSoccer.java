@@ -60,13 +60,11 @@ public class TokenSoccer extends Game {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50)));
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
-        // TODO: the blue ball player seems to be bigger than the red one; make the sizes equals
-		String path = "core/assets/";
-		ballTexture = new Texture(path + "ball.png");
-		p1Texture = new Texture(path + "red_circle.png");
-		p2Texture = new Texture(path + "blue_circle.png");
-        woodHTexture = new Texture(path + "wood_480x25.png");
-        woodVTexture = new Texture(path + "wood_30x160.png");
+		ballTexture = new Texture("ball.png");
+		p1Texture = new Texture("spain-32.png");
+		p2Texture = new Texture("germany-32.png");
+        woodHTexture = new Texture("wood_480x25.png");
+        woodVTexture = new Texture("wood_30x160.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
