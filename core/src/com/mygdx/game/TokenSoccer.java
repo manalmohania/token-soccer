@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -32,7 +31,7 @@ public class TokenSoccer extends ApplicationAdapter {
 	private Player p2;
 	private Players players;
 	private Random random = new Random();
-	private Texture texture;
+	private Texture ballTexture, p1Texture, p2Texture;
 
 	BitmapFont font;
     SpriteBatch batch;
@@ -61,7 +60,9 @@ public class TokenSoccer extends ApplicationAdapter {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50)));
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
-		texture = new Texture("ball.png");
+		ballTexture = new Texture("ball.png");
+		p1Texture = new Texture("red_circle.png");
+		p2Texture = new Texture("blue_circle.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -152,7 +153,13 @@ public class TokenSoccer extends ApplicationAdapter {
 		font.draw(batch, p2.getName(), width-100,height);
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
 		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
-		batch.draw(texture, ball.token.getPosition().x * 2 - (texture.getWidth()/2) , ball.token.getPosition().y * 2 - (texture.getHeight() / 2));
+		batch.draw(ballTexture, ball.token.getPosition().x * 2 - (ballTexture.getWidth()/2) , ball.token.getPosition().y * 2 - (ballTexture.getHeight() / 2));
+		for (int i = 0; i < p1.tokens.size(); i++) {
+			batch.draw(p1Texture, p1.tokens.get(i).token.getPosition().x * 2 - (p1Texture.getWidth()/2), p1.tokens.get(i).token.getPosition().y * 2 - p1Texture.getHeight()/2);
+		}
+		for (int i = 0; i < p2.tokens.size(); i++) {
+			batch.draw(p2Texture, p2.tokens.get(i).token.getPosition().x * 2 - (p2Texture.getWidth()/2), p2.tokens.get(i).token.getPosition().y * 2 - p2Texture.getHeight()/2);
+		}
 		batch.end();
 	}
 
@@ -210,6 +217,6 @@ public class TokenSoccer extends ApplicationAdapter {
 		world.dispose();
 		b2dr.dispose();
 		batch.dispose();
-		texture.dispose();
+		ballTexture.dispose();
 	}
 }

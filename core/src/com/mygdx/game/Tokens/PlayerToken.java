@@ -9,6 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PlayerToken extends Token{
     public PlayerToken(World world, Vector2 initialPos){
         // 5 is the radius of the player -- will probably increase its size in the end
-        super(world, initialPos, 5);
+        super(world, initialPos, 8.0f);
     }
 }
