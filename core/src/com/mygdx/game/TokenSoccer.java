@@ -31,7 +31,7 @@ public class TokenSoccer extends ApplicationAdapter {
 	private Player p2;
 	private Players players;
 	private Random random = new Random();
-	private Texture ballTexture, p1Texture, p2Texture, woodTexture;
+	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture;
 	private BitmapFont font;
     private SpriteBatch batch;
 
@@ -63,7 +63,8 @@ public class TokenSoccer extends ApplicationAdapter {
 		ballTexture = new Texture("ball.png");
 		p1Texture = new Texture("red_circle.png");
 		p2Texture = new Texture("blue_circle.png");
-        woodTexture = new Texture("wood.png");
+        woodHTexture = new Texture("wood_480x25.png");
+        woodVTexture = new Texture("wood_30x160.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -158,10 +159,16 @@ public class TokenSoccer extends ApplicationAdapter {
 		    p1.tokens.get(i).draw(batch, p1Texture);
             p2.tokens.get(i).draw(batch, p2Texture);
 		}
-		batch.end();
+		batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * 7 * height / 16 - 4);
+        batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * height / 16 - woodHTexture.getHeight() + 5);
+        batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2 * height / 8 - woodVTexture.getHeight()/2);
+        batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2* 3 * height / 8 - woodVTexture.getHeight()/2);
+        batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * height / 8 - woodVTexture.getHeight()/2);
+        batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * 3 * height / 8 - woodVTexture.getHeight()/2);
+        batch.end();
 	}
 
-	public void update(float deltaTime) {
+	private void update(float deltaTime) {
 		world.step(deltaTime, 6, 2);
 
         if (ball.token.getPosition().x < p1_goal) {
