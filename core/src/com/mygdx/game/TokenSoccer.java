@@ -61,7 +61,7 @@ public class TokenSoccer extends ApplicationAdapter {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50)));
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
-		texture = new Texture("ball.png");
+		texture = new Texture("core/assets/ball.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";

@@ -23,7 +23,6 @@ public class Events implements InputProcessor {
                 float xPos = body.token.getPosition().x;
                 float yPos = body.token.getPosition().y;
                 if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
-                    players.toggleTurns();
                     return body;
                 }
             }
@@ -32,7 +31,6 @@ public class Events implements InputProcessor {
                 float xPos = body.token.getPosition().x;
                 float yPos = body.token.getPosition().y;
                 if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
-                    players.toggleTurns();
                     return body;
                 }
             }
@@ -129,6 +127,7 @@ public class Events implements InputProcessor {
             lastToken.token.applyLinearImpulse((float) (1000 * len * Math.cos(angle)), (float) (1000 * len * Math.sin(angle)), lastX, lastY, false);
         }
 
+        players.toggleTurns();
         return true;
     }
 
