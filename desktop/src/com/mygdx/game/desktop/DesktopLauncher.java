@@ -7,6 +7,9 @@ import com.mygdx.game.TokenSoccer;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "Token Soccer";
+		config.height = 400;
+		config.width = 500;
 		new LwjglApplication(new TokenSoccer(), config);
 	}
 }
