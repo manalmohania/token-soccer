@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -48,7 +47,6 @@ public class TokenSoccer extends Game {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, width / 2, height / 2);
 
-
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		b2dr = new Box2DDebugRenderer();
 
@@ -75,6 +73,7 @@ public class TokenSoccer extends Game {
 
 		Events eventHandler = new Events(players);
 		Gdx.input.setInputProcessor(eventHandler);
+
 	}
 
 	private void createPlayers(String name1, String name2, Boolean isp1Bot, Boolean isp2Bot) {
