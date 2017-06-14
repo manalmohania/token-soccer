@@ -28,11 +28,10 @@ public class TokenSoccer extends Game {
 	private ArrayList<PlayerToken> p1_soccer_players = new ArrayList<PlayerToken>();
     private ArrayList<PlayerToken> p2_soccer_players = new ArrayList<PlayerToken>();
     private BallToken ball;
-	private Player p1;
-	private Player p2;
+	private Player p1, p2;
 	private Players players;
 	private Random random = new Random();
-	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture;
+	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture;
 	private BitmapFont font;
     private SpriteBatch batch;
 
@@ -65,6 +64,7 @@ public class TokenSoccer extends Game {
 		p2Texture = new Texture("germany-32.png");
         woodHTexture = new Texture("wood_480x25.png");
         woodVTexture = new Texture("wood_30x160.png");
+		fieldTexture = new Texture("field-480x360.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -148,12 +148,13 @@ public class TokenSoccer extends Game {
 		b2dr.render(world, camera.combined);
 
 		batch.begin();
-		//TODO some function that correctly positons
-		font.draw(batch, p1.getName(), 0,height);
+		//TODO some function that correctly positions
+		font.draw(batch, p1.getName(), 0, height);
 		font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
 		font.draw(batch, p2.getName(), width-100,height);
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
 		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
+		batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
         ball.draw(batch, ballTexture);
 		for (int i = 0; i < p1.tokens.size(); i++) {
 		    p1.tokens.get(i).draw(batch, p1Texture);
