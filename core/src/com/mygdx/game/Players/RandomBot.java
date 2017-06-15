@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by manalmohania on 15/6/17.
  */
 public class RandomBot extends BotPlayer {
-    Random random;
+    private Random random;
 
     public RandomBot(String name, ArrayList<PlayerToken> tokens) {
         super(name, tokens);
