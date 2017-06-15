@@ -1,12 +1,14 @@
-package com.mygdx.game;
+package com.mygdx.game.Players;
+
+import com.mygdx.game.Timer;
 
 /**
  * Created by manalmohania on 13/6/17.
  */
 public class Players {
-    Player player1;
-    Player player2;
-    boolean isplayer1turn;
+    private Player player1;
+    private Player player2;
+    private boolean isplayer1turn;
     private Timer timer;
 
     public Players(Player player1, Player player2){
@@ -38,13 +40,8 @@ public class Players {
         return timer;
     }
 
-    public void makeMove() {
-        if (isplayer1turn) {
-            player1.makeMove();
-        }
-        else {
-            player2.makeMove();
-        }
+    public void makeMove(String id, float angle, float length, float lastX, float lastY, float releaseX) {
+        currentPlayer().makeMove(id, angle, length, lastX, lastY, releaseX);
         toggleTurns();
     }
 

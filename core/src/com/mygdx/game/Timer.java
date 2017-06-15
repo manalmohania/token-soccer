@@ -8,9 +8,9 @@ import java.text.DecimalFormat;
 public class Timer {
     private final int MAX_TURN_TIME = 10;
     private double original_time;
-    DecimalFormat df;
+    private DecimalFormat df;
 
-    Timer() {
+    public Timer() {
         original_time = System.nanoTime();
         this.df = new DecimalFormat("#.00");
     }
@@ -28,10 +28,6 @@ public class Timer {
     }
 
     public boolean timeRemaining() {
-        if (this.getTimeElapsed() < MAX_TURN_TIME) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.getTimeElapsed() < MAX_TURN_TIME;
     }
 }

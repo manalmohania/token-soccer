@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Players.HumanPlayer;
+import com.mygdx.game.Players.Player;
+import com.mygdx.game.Players.Players;
 import com.mygdx.game.Tokens.BallToken;
 import com.mygdx.game.Tokens.PlayerToken;
 import com.mygdx.game.Tokens.Token;
@@ -79,19 +82,17 @@ public class TokenSoccer extends Game {
 		// Temporarily putting here
 		String name1 = "Bob";
 		String name2 = "Bob2";
-		Boolean isp1Bot = false;
-		Boolean isp2Bot = false;
-		createPlayers(name1, name2, isp1Bot, isp2Bot);
+		createPlayers(name1, name2);
 
 		Events eventHandler = new Events(players);
 		Gdx.input.setInputProcessor(eventHandler);
 
 	}
 
-	private void createPlayers(String name1, String name2, Boolean isp1Bot, Boolean isp2Bot) {
+	private void createPlayers(String name1, String name2) {
 		// indicates if bot player
-		this.p1 = new Player(name1, isp1Bot, p1_soccer_players);
-		this.p2 = new Player(name2, isp2Bot, p2_soccer_players);
+		this.p1 = new HumanPlayer(name1, p1_soccer_players);
+		this.p2 = new HumanPlayer(name2, p2_soccer_players);
 		this.players = new Players(p1, p2);
 	}
 

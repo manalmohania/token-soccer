@@ -2,7 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.game.Tokens.Token;
+import com.mygdx.game.Players.Players;
+import com.mygdx.game.Tokens.PlayerToken;
 
 /**
  * Created by manalmohania on 13/6/17.
@@ -11,14 +12,14 @@ public class Events implements InputProcessor {
 
     private Players players;
     private float lastX, lastY;
-    private Token lastToken;
+    private PlayerToken lastToken;
 
     public Events(Players players){
         this.players = players;
     }
 
-    private Token contains(float x, float y) {
-        for (Token body : players.currentPlayer().getTokens()) {
+    private PlayerToken contains(float x, float y) {
+        for (PlayerToken body : players.currentPlayer().getTokens()) {
             float xPos = body.token.getPosition().x;
             float yPos = body.token.getPosition().y;
             // detect if the touch was inside a token
@@ -76,11 +77,10 @@ public class Events implements InputProcessor {
         float x = Gdx.input.getX();
         float y = Gdx.graphics.getHeight() - Gdx.input.getY();
         // the next line is a bit of a hack and might not always work
-        Token body = contains(x/2, y/2);
+        PlayerToken body = contains(x/2, y/2);
         lastX = x/2;
         lastY = y/2;
         if (body != null) {
-            // body.applyLinearImpulse(1000, 1000, x, y, false);
             lastToken = body;
         }
         else {
@@ -109,16 +109,8 @@ public class Events implements InputProcessor {
             return true;
         }
         float angle = (float) Math.atan(slope);
+        players.makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
 
-        // check the quadrant in which touchUp lies wrt touchDown
-        if (releaseX >= lastX) {
-            lastToken.token.applyLinearImpulse((float) (-1000 * len * Math.cos(angle)), (float) (-1000 * len * Math.sin(angle)), lastX, lastY, false);
-        }
-        else {
-            lastToken.token.applyLinearImpulse((float) (1000 * len * Math.cos(angle)), (float) (1000 * len * Math.sin(angle)), lastX, lastY, false);
-        }
-
-        players.toggleTurns();
         return true;
     }
 
