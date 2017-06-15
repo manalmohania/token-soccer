@@ -2,8 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.game.Players.BotPlayer;
-import com.mygdx.game.Players.Players;
 import com.mygdx.game.Tokens.PlayerToken;
 
 /**

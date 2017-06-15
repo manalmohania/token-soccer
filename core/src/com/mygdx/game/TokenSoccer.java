@@ -36,9 +36,7 @@ public class TokenSoccer extends Game {
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<PlayerToken> p1_soccer_players = new ArrayList<PlayerToken>();
     private ArrayList<PlayerToken> p2_soccer_players = new ArrayList<PlayerToken>();
-    private BallToken ball;
 	private Player p1, p2;
-	private Players players;
 	private Random random = new Random();
 	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft;
 	private BitmapFont font;
@@ -73,7 +71,6 @@ public class TokenSoccer extends Game {
 		p1_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 - 50, height / 4 + 50), "11"));
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 - 50), "20"));
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50), "21"));
-		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
 		ballTexture = new Texture("ball.png");
 		p1Texture = new Texture("spain-32.png");
@@ -88,7 +85,7 @@ public class TokenSoccer extends Game {
 		String name2 = "Bob2";
 		createPlayers(name1, name2);
 
-        gameElements = new GameElements(players, ball);
+
 
 		Events eventHandler = new Events(gameElements);
 		Gdx.input.setInputProcessor(eventHandler);
@@ -99,7 +96,7 @@ public class TokenSoccer extends Game {
 		// indicates if bot player
 		this.p1 = new HumanPlayer(name1, p1_soccer_players);
 		this.p2 = new RandomBot(name2, p2_soccer_players);
-		this.players = new Players(p1, p2);
+		gameElements = new GameElements(new Players(p1, p2), new BallToken(world, new Vector2(width / 4, height /4)));
 	}
 
 	private void createBoundary(){
@@ -171,10 +168,10 @@ public class TokenSoccer extends Game {
 		font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
 		font.draw(batch, p2.getName(), width-100,height);
 		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
-		font.draw(batch, "Timer:" + players.getTimer().getTimeRemaining(), width/2 - 100, height);
+		font.draw(batch, "Timer:" + gameElements.getPlayers().getTimer().getTimeRemaining(), width/2 - 100, height);
 		batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
 		batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight()/2);
-        ball.draw(batch, ballTexture);
+        gameElements.getBallToken().draw(batch, ballTexture);
 		for (int i = 0; i < p1.getTokens().size(); i++) {
 		    p1.getTokens().get(i).draw(batch, p1Texture);
             p2.getTokens().get(i).draw(batch, p2Texture);
@@ -191,14 +188,14 @@ public class TokenSoccer extends Game {
 	private void update(float deltaTime) {
 		world.step(deltaTime, 6, 2);
 
-        if (ball.token.getPosition().x < p1_goal) {
+        if (gameElements.getBallToken().token.getPosition().x < p1_goal) {
             p2.scoreGoal();
             batch.begin();
             font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
             batch.end();
             reset();
         }
-        if (ball.token.getPosition().x > p2_goal) {
+        if (gameElements.getBallToken().token.getPosition().x > p2_goal) {
             p1.scoreGoal();
             batch.begin();
             font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
@@ -217,8 +214,8 @@ public class TokenSoccer extends Game {
 			}
 		}
 
-		if (!players.getTimer().timeRemaining()) {
-			players.toggleTurns();
+		if (!gameElements.getPlayers().getTimer().timeRemaining()) {
+			gameElements.getPlayers().toggleTurns();
 		}
 	}
 
@@ -232,7 +229,7 @@ public class TokenSoccer extends Game {
     }
 
 	private void reset() {
-		ball.changePosition(ball.initialPosition.x, ball.initialPosition.y);
+		gameElements.getBallToken().changePosition(gameElements.getBallToken().initialPosition.x, gameElements.getBallToken().initialPosition.y);
 		for (int i = 0; i < 2; i++) {
 			Token p1 = p1_soccer_players.get(i);
 			Token p2 = p2_soccer_players.get(i);
