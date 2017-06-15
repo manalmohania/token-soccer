@@ -10,12 +10,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Players.HumanPlayer;
-import com.mygdx.game.Players.Player;
 import com.mygdx.game.Players.Players;
 import com.mygdx.game.Players.RandomBot;
-import com.mygdx.game.Tokens.BallToken;
-import com.mygdx.game.Tokens.PlayerToken;
-import com.mygdx.game.Tokens.Token;
+import com.mygdx.game.Tokens.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,7 +33,6 @@ public class TokenSoccer extends Game {
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<PlayerToken> p1_soccer_players = new ArrayList<PlayerToken>();
     private ArrayList<PlayerToken> p2_soccer_players = new ArrayList<PlayerToken>();
-	private Player p1, p2;
 	private Random random = new Random();
 	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft;
 	private BitmapFont font;
@@ -94,9 +90,13 @@ public class TokenSoccer extends Game {
 
 	private void createPlayers(String name1, String name2) {
 		// indicates if bot player
-		this.p1 = new HumanPlayer(name1, p1_soccer_players);
-		this.p2 = new RandomBot(name2, p2_soccer_players);
-		gameElements = new GameElements(new Players(p1, p2), new BallToken(world, new Vector2(width / 4, height /4)));
+		gameElements = new GameElements(
+		        new Players(
+		                new HumanPlayer(name1, p1_soccer_players),
+                        new RandomBot(name2, p2_soccer_players)
+                ),
+                new BallToken(world, new Vector2(width / 4, height /4))
+        );
 	}
 
 	private void createBoundary(){
@@ -164,17 +164,17 @@ public class TokenSoccer extends Game {
 
 		batch.begin();
 		//TODO some function that correctly positions
-		font.draw(batch, p1.getName(), 0, height);
-		font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
-		font.draw(batch, p2.getName(), width-100,height);
-		font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
+		font.draw(batch, gameElements.getPlayers().player1.getName(), 0, height);
+		font.draw(batch, "Score:" + gameElements.getPlayers().player1.getScore(), 0, height-20);
+		font.draw(batch, gameElements.getPlayers().player2.getName(), width-100,height);
+		font.draw(batch, "Score:" + gameElements.getPlayers().player2.getScore(), width-100, height-20);
 		font.draw(batch, "Timer:" + gameElements.getPlayers().getTimer().getTimeRemaining(), width/2 - 100, height);
 		batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
 		batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight()/2);
         gameElements.getBallToken().draw(batch, ballTexture);
-		for (int i = 0; i < p1.getTokens().size(); i++) {
-		    p1.getTokens().get(i).draw(batch, p1Texture);
-            p2.getTokens().get(i).draw(batch, p2Texture);
+		for (int i = 0; i < gameElements.getPlayers().player1.getTokens().size(); i++) {
+		    gameElements.getPlayers().player1.getTokens().get(i).draw(batch, p1Texture);
+            gameElements.getPlayers().player2.getTokens().get(i).draw(batch, p2Texture);
 		}
 		batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * 7 * height / 16 - 4);
         batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * height / 16 - woodHTexture.getHeight() + 5);
@@ -189,16 +189,16 @@ public class TokenSoccer extends Game {
 		world.step(deltaTime, 6, 2);
 
         if (gameElements.getBallToken().token.getPosition().x < p1_goal) {
-            p2.scoreGoal();
+            gameElements.getPlayers().player2.scoreGoal();
             batch.begin();
-            font.draw(batch, "Score:" + p2.getScore(), width-100, height-20);
+            font.draw(batch, "Score:" + gameElements.getPlayers().player2.getScore(), width-100, height-20);
             batch.end();
             reset();
         }
         if (gameElements.getBallToken().token.getPosition().x > p2_goal) {
-            p1.scoreGoal();
+            gameElements.getPlayers().player1.scoreGoal();
             batch.begin();
-            font.draw(batch, "Score:" + p1.getScore(), 0, height-20);
+            font.draw(batch, "Score:" + gameElements.getPlayers().player1.getScore(), 0, height-20);
             batch.end();
             reset();
         }
