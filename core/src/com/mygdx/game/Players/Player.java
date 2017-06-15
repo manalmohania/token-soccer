@@ -11,7 +11,6 @@ public abstract class Player {
     private final String name;
     private int score;
     ArrayList<PlayerToken> tokens;
-    public boolean isTurn;
 
     Player(String name, ArrayList<PlayerToken> tokens) {
         this.name = name;

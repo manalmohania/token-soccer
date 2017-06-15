@@ -95,7 +95,7 @@ public class TokenSoccer extends Game {
 	private void createPlayers(String name1, String name2) {
 		// indicates if bot player
 		this.p1 = new HumanPlayer(name1, p1_soccer_players);
-		this.p2 = new RandomBot(name2, p2_soccer_players);
+		this.p2 = new HumanPlayer(name2, p2_soccer_players);
 		this.players = new Players(p1, p2);
 	}
 
