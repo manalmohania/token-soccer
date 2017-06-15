@@ -43,6 +43,10 @@ public class Players {
     public void makeMove(String id, float angle, float length, float lastX, float lastY, float releaseX) {
         currentPlayer().makeMove(id, angle, length, lastX, lastY, releaseX);
         toggleTurns();
+        if (currentPlayer() instanceof BotPlayer) {
+            ((BotPlayer) currentPlayer()).makeMove();
+            toggleTurns();
+        }
     }
 
 }

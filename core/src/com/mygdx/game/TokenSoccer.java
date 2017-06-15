@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Players.HumanPlayer;
 import com.mygdx.game.Players.Player;
 import com.mygdx.game.Players.Players;
+import com.mygdx.game.Players.RandomBot;
 import com.mygdx.game.Tokens.BallToken;
 import com.mygdx.game.Tokens.PlayerToken;
 import com.mygdx.game.Tokens.Token;
@@ -43,9 +44,11 @@ public class TokenSoccer extends Game {
 	private BitmapFont font;
     private SpriteBatch batch;
 
+
     /*
-    * world to box2d -> multiply by PPM
-    * box2d to world -> divide by PPM
+    * The game will NOT work right now if player 1 is a bot. I'll make those changes later today.
+    * Also, right now it appears as if the bot is making a move simultaneously with the human. That will be fixed once
+    * Allen ensures that moves are made once the system is at rest
     * */
 
 	@Override
@@ -92,7 +95,7 @@ public class TokenSoccer extends Game {
 	private void createPlayers(String name1, String name2) {
 		// indicates if bot player
 		this.p1 = new HumanPlayer(name1, p1_soccer_players);
-		this.p2 = new HumanPlayer(name2, p2_soccer_players);
+		this.p2 = new RandomBot(name2, p2_soccer_players);
 		this.players = new Players(p1, p2);
 	}
 
