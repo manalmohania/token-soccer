@@ -43,6 +43,7 @@ public class TokenSoccer extends Game {
 	private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft;
 	private BitmapFont font;
     private SpriteBatch batch;
+    private GameElements gameElements;
 
 
     /*
@@ -87,7 +88,9 @@ public class TokenSoccer extends Game {
 		String name2 = "Bob2";
 		createPlayers(name1, name2);
 
-		Events eventHandler = new Events(players);
+        gameElements = new GameElements(players, ball);
+
+		Events eventHandler = new Events(gameElements);
 		Gdx.input.setInputProcessor(eventHandler);
 
 	}
@@ -220,10 +223,10 @@ public class TokenSoccer extends Game {
 	}
 
 	public boolean atRest() {
-	    if (! ball.token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-        for (int i = 0; i < p1.getTokens().size(); i++) {
-            if (! p1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-            if (! p2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+	    if (! gameElements.getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        for (int i = 0; i < gameElements.getPlayers().player1.getTokens().size(); i++) {
+            if (! gameElements.getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+            if (! gameElements.getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
         }
 	    return true;
     }

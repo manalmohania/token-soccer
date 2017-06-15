@@ -11,16 +11,16 @@ import com.mygdx.game.Tokens.PlayerToken;
  */
 public class Events implements InputProcessor {
 
-    private Players players;
+    private GameElements gameElements;
     private float lastX, lastY;
     private PlayerToken lastToken;
 
-    public Events(Players players){
-        this.players = players;
+    public Events(GameElements gameElements){
+        this.gameElements = gameElements;
     }
 
     private PlayerToken contains(float x, float y) {
-        for (PlayerToken body : players.currentPlayer().getTokens()) {
+        for (PlayerToken body : gameElements.getPlayers().currentPlayer().getTokens()) {
             float xPos = body.token.getPosition().x;
             float yPos = body.token.getPosition().y;
             // detect if the touch was inside a token
@@ -110,7 +110,7 @@ public class Events implements InputProcessor {
             return true;
         }
         float angle = (float) Math.atan(slope);
-        players.makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
+        gameElements.getPlayers().makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
 
         return true;
     }

@@ -6,8 +6,8 @@ import com.mygdx.game.Timer;
  * Created by manalmohania on 13/6/17.
  */
 public class Players {
-    private Player player1;
-    private Player player2;
+    public Player player1;
+    public Player player2;
     private boolean isP1Turn;
     private Timer timer;
 
