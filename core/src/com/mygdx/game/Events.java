@@ -18,21 +18,12 @@ public class Events implements InputProcessor {
     }
 
     private Token contains(float x, float y) {
-        if (players.isplayer1turn) {
-            for (Token body : players.player1.tokens) {
-                float xPos = body.token.getPosition().x;
-                float yPos = body.token.getPosition().y;
-                if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
-                    return body;
-                }
-            }
-        } else {
-            for (Token body : players.player2.tokens) {
-                float xPos = body.token.getPosition().x;
-                float yPos = body.token.getPosition().y;
-                if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
-                    return body;
-                }
+        for (Token body : players.currentPlayer().getTokens()) {
+            float xPos = body.token.getPosition().x;
+            float yPos = body.token.getPosition().y;
+            // detect if the touch was inside a token
+            if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
+                return body;
             }
         }
         return null;
@@ -119,7 +110,7 @@ public class Events implements InputProcessor {
         }
         float angle = (float) Math.atan(slope);
 
-        // check the quadrant in which touchup lies wrt touchdown
+        // check the quadrant in which touchUp lies wrt touchDown
         if (releaseX >= lastX) {
             lastToken.token.applyLinearImpulse((float) (-1000 * len * Math.cos(angle)), (float) (-1000 * len * Math.sin(angle)), lastX, lastY, false);
         }

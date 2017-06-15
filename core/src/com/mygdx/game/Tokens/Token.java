@@ -12,11 +12,11 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by manalmohania on 13/6/17.
  */
 public abstract class Token {
-    public World world;
+    private World world;
     public Vector2 initialPosition;
     public float radius;
     public Body token;
-    protected static Texture background = new Texture("ring-33.png");
+    static Texture background = new Texture("ring-33.png");
 
     public Token(World world, Vector2 initialPosition, float radius) {
         this.world = world;

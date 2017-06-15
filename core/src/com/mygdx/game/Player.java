@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tokens.PlayerToken;
+import com.mygdx.game.Tokens.Token;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class Player {
     private final String name;
     private int score;
     private final Boolean isBot;
-    public ArrayList<PlayerToken> tokens;
+    private ArrayList<PlayerToken> tokens;
     public boolean isTurn;
 
     Player(String name, Boolean isBot, ArrayList<PlayerToken> tokens) {
@@ -48,6 +49,10 @@ public class Player {
 
     public void resetGoal() {
         this.score = 0;
+    }
+
+    public ArrayList<PlayerToken> getTokens(){
+        return tokens;
     }
 
 }

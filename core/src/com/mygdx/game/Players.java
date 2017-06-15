@@ -16,6 +16,11 @@ public class Players {
         this.timer = new Timer();
     }
 
+    public Player currentPlayer(){
+        if (isplayer1turn) return player1;
+        else return player2;
+    }
+
     public void toggleTurns(){
         if (isplayer1turn) {
             player1.isTurn = false;
@@ -31,6 +36,16 @@ public class Players {
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public void makeMove() {
+        if (isplayer1turn) {
+            player1.makeMove();
+        }
+        else {
+            player2.makeMove();
+        }
+        toggleTurns();
     }
 
 }

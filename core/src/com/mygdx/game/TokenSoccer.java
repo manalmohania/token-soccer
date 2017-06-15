@@ -21,13 +21,13 @@ import java.util.Random;
 // TODO - some more refactoring
 // TODO - menus
 // TODO - sound
-// TODO - network stuff
+// TODO - network stuff - TCP
 
 public class TokenSoccer extends Game {
 	private boolean DEBUG = false;
 	private OrthographicCamera camera;
-	private float width, height;
-	private float p1_goal, p2_goal;
+	private float width, height;  // these are world coordinates
+	private float p1_goal, p2_goal; // so are these
 	private World world;
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<PlayerToken> p1_soccer_players = new ArrayList<PlayerToken>();
@@ -40,14 +40,19 @@ public class TokenSoccer extends Game {
 	private BitmapFont font;
     private SpriteBatch batch;
 
+    /*
+    * world to box2d -> multiply by PPM
+    * box2d to world -> divide by PPM
+    * */
+
 	@Override
 	public void create() {
         this.font = new BitmapFont();
         this.batch = new SpriteBatch();
 
 		width = Gdx.graphics.getWidth();
-		this.p1_goal = width / 16;
-		this.p2_goal = 7 * width / 16;
+		p1_goal = width / 16;
+		p2_goal = 7 * width / 16;
 		height = Gdx.graphics.getHeight();
 
 		camera = new OrthographicCamera();
@@ -57,10 +62,10 @@ public class TokenSoccer extends Game {
 		b2dr = new Box2DDebugRenderer();
 
 		createBoundary();
-		p1_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 - 50, height / 4 - 50)));
-		p1_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 - 50, height / 4 + 50)));
-		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 - 50)));
-		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50)));
+		p1_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 - 50, height / 4 - 50), "10"));
+		p1_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 - 50, height / 4 + 50), "11"));
+		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 - 50), "20"));
+		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50), "21"));
 		this.ball = new BallToken(world, new Vector2(width / 4, height /4));
 
 		ballTexture = new Texture("ball.png");
@@ -95,44 +100,44 @@ public class TokenSoccer extends Game {
 		fixtureDefVertical.restitution = 1.1f;
 		fixtureDefVertical.friction = 0.8f;
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(2, height/16);
+		polygonShape.setAsBox(2 , height/16 );
 		fixtureDefVertical.shape = polygonShape;
 
 		FixtureDef fixtureDefHorizontal = new FixtureDef();
 		fixtureDefHorizontal.restitution = 1.1f;
 		fixtureDefHorizontal.friction = 0.8f;
 		PolygonShape polygonShape2 = new PolygonShape();
-		polygonShape2.setAsBox(3 * width / 16, 2);
+		polygonShape2.setAsBox(3 * width / 16 , 2 );
 		fixtureDefHorizontal.shape = polygonShape2;
 
 		BodyDef leftDefLower = new BodyDef();
 		leftDefLower.type = BodyDef.BodyType.StaticBody;
-		leftDefLower.position.set(width / 16, height / 8);
+		leftDefLower.position.set(width / 16 , height / 8 );
 		Body leftLower = world.createBody(leftDefLower);
 
 		BodyDef leftDefUpper = new BodyDef();
 		leftDefUpper.type = BodyDef.BodyType.StaticBody;
-		leftDefUpper.position.set(width / 16, 3 * height / 8);
+		leftDefUpper.position.set(width / 16 , 3 * height / 8 );
 		Body leftUpper = world.createBody(leftDefUpper);
 
 		BodyDef rightDefLower = new BodyDef();
 		rightDefLower.type = BodyDef.BodyType.StaticBody;
-		rightDefLower.position.set(7 * width / 16 , height/ 8);
+		rightDefLower.position.set(7 * width / 16 , height/ 8 );
 		Body rightLower = world.createBody(rightDefLower);
 
 		BodyDef rightDefUpper = new BodyDef();
 		rightDefUpper.type = BodyDef.BodyType.StaticBody;
-		rightDefUpper.position.set(7 * width / 16 , 3 * height/ 8);
+		rightDefUpper.position.set(7 * width / 16, 3 * height/ 8);
 		Body rightUpper = world.createBody(rightDefUpper);
 
 		BodyDef upDef = new BodyDef();
 		upDef.type = BodyDef.BodyType.StaticBody;
-		upDef.position.set(width / 4,  7 * height / 16);
+		upDef.position.set(width / 4 ,  7 * height / 16 );
 		Body up = world.createBody(upDef);
 
 		BodyDef downDef = new BodyDef();
 		downDef.type = BodyDef.BodyType.StaticBody;
-		downDef.position.set(width / 4, height / 16);
+		downDef.position.set(width / 4 , height / 16 );
 		Body down = world.createBody(downDef);
 
 		leftLower.createFixture(fixtureDefVertical);
@@ -163,16 +168,16 @@ public class TokenSoccer extends Game {
 		batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
 		batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight()/2);
         ball.draw(batch, ballTexture);
-		for (int i = 0; i < p1.tokens.size(); i++) {
-		    p1.tokens.get(i).draw(batch, p1Texture);
-            p2.tokens.get(i).draw(batch, p2Texture);
+		for (int i = 0; i < p1.getTokens().size(); i++) {
+		    p1.getTokens().get(i).draw(batch, p1Texture);
+            p2.getTokens().get(i).draw(batch, p2Texture);
 		}
 		batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * 7 * height / 16 - 4);
         batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * height / 16 - woodHTexture.getHeight() + 5);
         batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2 * height / 8 - woodVTexture.getHeight()/2);
         batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2* 3 * height / 8 - woodVTexture.getHeight()/2);
-        batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * height / 8 - woodVTexture.getHeight()/2);
-        batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * 3 * height / 8 - woodVTexture.getHeight()/2);
+        batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * height / 8 - woodVTexture.getHeight() / 2);
+        batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * 3 * height / 8 - woodVTexture.getHeight() / 2);
         batch.end();
 	}
 
@@ -212,9 +217,9 @@ public class TokenSoccer extends Game {
 
 	public boolean atRest() {
 	    if (! ball.token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-        for (int i = 0; i < p1.tokens.size(); i++) {
-            if (! p1.tokens.get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-            if (! p2.tokens.get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        for (int i = 0; i < p1.getTokens().size(); i++) {
+            if (! p1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+            if (! p2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
         }
 	    return true;
     }
