@@ -8,21 +8,21 @@ import com.mygdx.game.Tokens.PlayerToken;
  * Created by manalmohania on 13/6/17.
  */
 public class Events implements InputProcessor {
-    private GameElements gameElements;
+    private Game game;
     private float lastX, lastY;
     private PlayerToken lastToken;
 
-    public Events(GameElements gameElements){
-        this.gameElements = gameElements;
+    public Events(Game game) {
+        this.game = game;
     }
 
     private PlayerToken contains(float x, float y) {
-        for (PlayerToken body : gameElements.getPlayers().currentPlayer().getTokens()) {
-            float xPos = body.token.getPosition().x;
-            float yPos = body.token.getPosition().y;
-            // detect if the touch was inside a token
-            if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
-                return body;
+        for (PlayerToken token : game.currentPlayer().getTokens()) {
+            float xPos = token.getX();
+            float yPos = token.getY();
+            // detect if the touch was inside a body
+            if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= token.getRadius() * token.getRadius()) {
+                return token;
             }
         }
         return null;
@@ -33,13 +33,12 @@ public class Events implements InputProcessor {
         float x = Gdx.input.getX();
         float y = Gdx.graphics.getHeight() - Gdx.input.getY();
         // the next line is a bit of a hack and might not always work
-        PlayerToken body = contains(x/2, y/2);
-        lastX = x/2;
-        lastY = y/2;
+        PlayerToken body = contains(x / 2, y / 2);
+        lastX = x / 2;
+        lastY = y / 2;
         if (body != null) {
             lastToken = body;
-        }
-        else {
+        } else {
             lastToken = null;
         }
         return true;
@@ -55,12 +54,13 @@ public class Events implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
-        if (!gameElements.atRest()) {return false;}
+        if (!game.atRest()) {
+            return false;
+        }
 
         if (lastToken == null) return true;
-        float releaseX = Gdx.input.getX()/2;
-        float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY())/2;
+        float releaseX = Gdx.input.getX() / 2;
+        float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY()) / 2;
 
         float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
         float slope = (releaseY - lastY) / (releaseX - lastX);
@@ -68,7 +68,7 @@ public class Events implements InputProcessor {
             return true;
         }
         float angle = (float) Math.atan(slope);
-        gameElements.getPlayers().makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
+        game.makeMove(lastToken.getTokenID(), angle, len, lastX, lastY, releaseX);
 
         return true;
     }
