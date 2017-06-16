@@ -29,48 +29,6 @@ public class Events implements InputProcessor {
         return null;
     }
 
-    /**
-     * Called when a key was pressed
-     *
-     * @param keycode one of the constants
-     * @return whether the input was processed
-     */
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    /**
-     * Called when a key was released
-     *
-     * @param keycode one of the constants
-     * @return whether the input was processed
-     */
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    /**
-     * Called when a key was typed
-     *
-     * @param character The character
-     * @return whether the input was processed
-     */
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    /**
-     * Called when the screen was touched or a mouse button was pressed.
-     *
-     * @param screenX The x coordinate, origin is in the upper left corner
-     * @param screenY The y coordinate, origin is in the upper left corner
-     * @param pointer the pointer for the event.
-     * @param button  the button
-     * @return whether the input was processed
-     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         float x = Gdx.input.getX();
@@ -150,4 +108,47 @@ public class Events implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+    /**
+     * Called when a key was pressed
+     *
+     * @param keycode one of the constants
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    /**
+     * Called when a key was released
+     *
+     * @param keycode one of the constants
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    /**
+     * Called when a key was typed
+     *
+     * @param character The character
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    /**
+     * Called when the screen was touched or a mouse button was pressed.
+     *
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
 }

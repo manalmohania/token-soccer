@@ -10,23 +10,39 @@ public class Timer {
     private final double secToNanosec = 1/1000000000.0;
     private double original_time;
     private DecimalFormat df;
+    private boolean isRunning;
 
+
+    public boolean isRunning() {
+        return isRunning;
+    }
 
     public Timer() {
-        original_time = System.nanoTime();
+        this.isRunning = true;
+        this.original_time = System.nanoTime();
         this.df = new DecimalFormat("#.00");
     }
 
+    public void start() {
+        if (!isRunning) {
+            this.original_time = System.nanoTime();
+            this.isRunning = true;
+        }
+    }
     public void reset() {
-        original_time = System.nanoTime();
+        this.isRunning = false;
     }
 
-    public double getTimeElapsed() {
-        return (System.nanoTime() - original_time) * secToNanosec;
+    private double getTimeElapsed() {
+        if (isRunning) {
+            return (System.nanoTime() - original_time) * secToNanosec;
+        } else {
+            return 0;
+        }
     }
 
     public String getTimeRemaining() {
-        return df.format(MAX_TURN_TIME - (System.nanoTime() - original_time)*secToNanosec);
+        return df.format(MAX_TURN_TIME - getTimeElapsed());
     }
 
     public boolean timeRemaining() {

@@ -216,6 +216,10 @@ public class TokenSoccer extends Game {
 		if (!gameElements.getPlayers().getTimer().timeRemaining()) {
 			gameElements.getPlayers().toggleTurns();
 		}
+
+		if (gameElements.atRest()) {
+        	gameElements.getPlayers().getTimer().start();
+		}
 	}
 
 	private void reset() {
