@@ -16,7 +16,6 @@ import java.util.Random;
 
 // TODO - create the goal images
 // TODO - ensure that ball does not stick to side walls
-// TODO - next shot played only after system at rest
 // TODO - some more refactoring
 // TODO - menus
 // TODO - sound
@@ -36,6 +35,7 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
 	private BitmapFont font;
     private SpriteBatch batch;
     private Game game;
+    private Audio audio;
 
     /*
     * The game will NOT work right now if player 1 is a bot. I'll make those changes later today.
@@ -86,6 +86,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
 		Events eventHandler = new Events(game);
 		Gdx.input.setInputProcessor(eventHandler);
 
+		this.audio = new Audio();
+		audio.playBackgroundMusic();
 	}
 
 	private void createPlayers(String name1, String name2) {
@@ -186,19 +188,23 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
 		world.step(deltaTime, 6, 2);
 
         if (game.getBallToken().getX() < p1Goal) {
-            game.getPlayer2().scoreGoal();
+            game.getPlayer2().scoreGoal();;
+            audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + game.getPlayer2().getScore(), width-100, height-20);
             batch.end();
             reset();
         }
+
         if (game.getBallToken().getX() > p2Goal) {
             game.getPlayer1().scoreGoal();
+            audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height-20);
             batch.end();
             reset();
         }
+
 		for (Token token : p1Tokens) {
 			if (token.getX() < p1Goal || token.getX() > p2Goal) {
 				token.changePosition(p1Goal + random.nextFloat() * (p2Goal - p1Goal), random.nextFloat() * (6 * height / 16) + height / 16);
@@ -213,6 +219,10 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
 
 		if (!game.getTimer().expired()) {
 			game.toggleTurns();
+		}
+
+		if (game.atRest()) {
+        	game.getTimer().start();
 		}
 	}
 

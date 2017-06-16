@@ -47,7 +47,7 @@ public class Game {
     public boolean atRest() {
         // TODO make system rest faster
         // Check that the ball is stationary
-        if (ballToken.getBody().getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
+        if (!ballToken.getBody().getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
         // Check that each of the players tokens are stationary
         for (PlayerToken token : player1.getTokens())
             if (!token.atRest()) return false;
@@ -57,6 +57,7 @@ public class Game {
     }
 
     public void makeMove(String tokenId, float angle, float len, float lastX, float lastY, float releaseX) {
+        System.out.println("MAKING MOVE");
         currentPlayer().makeMove(tokenId, angle, len, lastX, lastY, releaseX);
         toggleTurns();
     }
