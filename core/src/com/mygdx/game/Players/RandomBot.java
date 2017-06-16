@@ -22,6 +22,6 @@ public class RandomBot extends BotPlayer {
         float lastY = token.body.getPosition().y;
         float releaseX = random.nextFloat() * Gdx.graphics.getWidth();
         // Make the move
-        super.makeMove(token.getTokenId(), angle, len, lastX, lastY, releaseX);
+        super.makeMove(token.getTokenID(), angle, len, lastX, lastY, releaseX);
     }
 }

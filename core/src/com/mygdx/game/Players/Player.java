@@ -21,7 +21,7 @@ public abstract class Player {
 
         PlayerToken lastToken = null;
         for (PlayerToken token : tokens) {
-            if (token.getTokenId().equals(id)) {
+            if (token.getTokenID().equals(id)) {
                 lastToken = token;
                 break;
             }
