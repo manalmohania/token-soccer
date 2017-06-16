@@ -18,7 +18,6 @@ import java.util.Random;
 
 // TODO - create the goal images
 // TODO - ensure that ball does not stick to side walls
-// TODO - next shot played only after system at rest
 // TODO - some more refactoring
 // TODO - menus
 // TODO - sound
@@ -38,6 +37,7 @@ public class TokenSoccer extends Game {
 	private BitmapFont font;
     private SpriteBatch batch;
     private GameElements gameElements;
+    private Audio audio;
 
 
     /*
@@ -81,11 +81,11 @@ public class TokenSoccer extends Game {
 		String name2 = "Bob2";
 		createPlayers(name1, name2);
 
-
-
 		Events eventHandler = new Events(gameElements);
 		Gdx.input.setInputProcessor(eventHandler);
 
+		this.audio = new Audio();
+		audio.playBackgroundMusic();
 	}
 
 	private void createPlayers(String name1, String name2) {
@@ -93,7 +93,8 @@ public class TokenSoccer extends Game {
 		gameElements = new GameElements(
 		        new Players(
 		                new HumanPlayer(name1, p1_soccer_players),
-                        new RandomBot(name2, p2_soccer_players)
+                        new HumanPlayer(name2, p2_soccer_players)
+						//new RandomBot(name2, p2_soccer_players)
                 ),
                 new BallToken(world, new Vector2(width / 4, height /4))
         );
@@ -190,14 +191,20 @@ public class TokenSoccer extends Game {
 
         if (gameElements.getBallToken().token.getPosition().x < p1_goal) {
             gameElements.getPlayers().player2.scoreGoal();
+            this.audio.playGoalMusic();
+            batch.begin();
+            font.draw(batch, "Score:" + gameElements.getPlayers().player2.getScore(), width-100, height-20);
+            batch.end();
             reset();
         }
-
         if (gameElements.getBallToken().token.getPosition().x > p2_goal) {
             gameElements.getPlayers().player1.scoreGoal();
+            this.audio.playGoalMusic();
+            batch.begin();
+            font.draw(batch, "Score:" + gameElements.getPlayers().player1.getScore(), 0, height-20);
+            batch.end();
             reset();
         }
-
 		for (Token token : p1_soccer_players) {
 			if (token.token.getPosition().x < p1_goal || token.token.getPosition().x > p2_goal) {
 				token.changePosition(p1_goal + random.nextFloat() * (p2_goal - p1_goal), random.nextFloat() * (6 * height / 16) + height / 16);
@@ -210,19 +217,14 @@ public class TokenSoccer extends Game {
 			}
 		}
 
-		if (!gameElements.getPlayers().getTimer().timeRemaining()) {
+		if (!gameElements.getPlayers().getTimer().expired()) {
 			gameElements.getPlayers().toggleTurns();
 		}
-	}
 
-    public boolean atRest() {
-        if (! gameElements.getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-        for (int i = 0; i < gameElements.getPlayers().player1.getTokens().size(); i++) {
-            if (! gameElements.getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-            if (! gameElements.getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-        }
-        return true;
-    }
+		if (gameElements.atRest()) {
+        	gameElements.getPlayers().getTimer().start();
+		}
+	}
 
 	private void reset() {
 		gameElements.getBallToken().changePosition(gameElements.getBallToken().initialPosition.x, gameElements.getBallToken().initialPosition.y);

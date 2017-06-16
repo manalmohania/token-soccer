@@ -13,5 +13,10 @@ public abstract class BotPlayer extends Player {
         super(name, tokens);
     }
 
+    @Override
+    public boolean isBot() {
+        return true;
+    }
+
     public abstract void makeMove();
 }

@@ -8,7 +8,6 @@ import com.mygdx.game.Tokens.PlayerToken;
  * Created by manalmohania on 13/6/17.
  */
 public class Events implements InputProcessor {
-
     private GameElements gameElements;
     private float lastX, lastY;
     private PlayerToken lastToken;
@@ -29,48 +28,6 @@ public class Events implements InputProcessor {
         return null;
     }
 
-    /**
-     * Called when a key was pressed
-     *
-     * @param keycode one of the constants
-     * @return whether the input was processed
-     */
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    /**
-     * Called when a key was released
-     *
-     * @param keycode one of the constants
-     * @return whether the input was processed
-     */
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    /**
-     * Called when a key was typed
-     *
-     * @param character The character
-     * @return whether the input was processed
-     */
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    /**
-     * Called when the screen was touched or a mouse button was pressed.
-     *
-     * @param screenX The x coordinate, origin is in the upper left corner
-     * @param screenY The y coordinate, origin is in the upper left corner
-     * @param pointer the pointer for the event.
-     * @param button  the button
-     * @return whether the input was processed
-     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         float x = Gdx.input.getX();
@@ -98,12 +55,15 @@ public class Events implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
+        if (!gameElements.atRest()) {return false;}
+
         if (lastToken == null) return true;
         float releaseX = Gdx.input.getX()/2;
         float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY())/2;
 
         float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
-        float slope = (releaseY - lastY)/(releaseX - lastX);
+        float slope = (releaseY - lastY) / (releaseX - lastX);
         if (Float.isNaN(slope)) {
             return true;
         }
@@ -148,4 +108,47 @@ public class Events implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+    /**
+     * Called when a key was pressed
+     *
+     * @param keycode one of the constants
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    /**
+     * Called when a key was released
+     *
+     * @param keycode one of the constants
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    /**
+     * Called when a key was typed
+     *
+     * @param character The character
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    /**
+     * Called when the screen was touched or a mouse button was pressed.
+     *
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
 }
