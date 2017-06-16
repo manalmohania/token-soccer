@@ -98,7 +98,7 @@ public class Events implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        
+
         if (lastToken == null) return true;
         float releaseX = Gdx.input.getX()/2;
         float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY())/2;
