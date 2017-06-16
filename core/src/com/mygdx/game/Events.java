@@ -108,7 +108,8 @@ public class Events implements InputProcessor {
             return true;
         }
         float angle = (float) Math.atan(slope);
-        gameElements.getPlayers().makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
+        gameElements.makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
+
 
         return true;
     }

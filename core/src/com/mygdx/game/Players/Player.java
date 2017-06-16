@@ -18,6 +18,8 @@ public abstract class Player {
         this.tokens = tokens;
     }
 
+    public abstract void makeMove();
+
     public void makeMove(String id, float angle, float len, float lastX, float lastY, float releaseX){
 
         len = Math.min(len, 20);

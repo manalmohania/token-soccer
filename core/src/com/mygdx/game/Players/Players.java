@@ -26,18 +26,19 @@ public class Players {
     public void toggleTurns(){
         isP1Turn = !isP1Turn;
         this.timer.reset();
+        currentPlayer().makeMove();
     }
 
     public Timer getTimer() {
         return timer;
     }
 
-    public void makeMove(String id, float angle, float length, float lastX, float lastY, float releaseX) {
-        currentPlayer().makeMove(id, angle, length, lastX, lastY, releaseX);
-        toggleTurns();
-        if (currentPlayer() instanceof BotPlayer) {
-            ((BotPlayer) currentPlayer()).makeMove();
-            toggleTurns();
-        }
-    }
+//    public void makeMove(String id, float angle, float length, float lastX, float lastY, float releaseX) {
+//        currentPlayer().makeMove(id, angle, length, lastX, lastY, releaseX);
+//        toggleTurns();
+//        if (currentPlayer() instanceof BotPlayer) {
+//            ((BotPlayer) currentPlayer()).makeMove();
+//            toggleTurns();
+//        }
+//    }
 }

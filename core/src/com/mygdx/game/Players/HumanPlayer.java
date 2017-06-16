@@ -1,8 +1,6 @@
 package com.mygdx.game.Players;
 
 import com.mygdx.game.Tokens.PlayerToken;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.ArrayList;
 
 /**
@@ -14,4 +12,8 @@ public class HumanPlayer extends Player{
         super(name, tokens);
     }
 
+    @Override
+    public void makeMove() {
+
+    }
 }

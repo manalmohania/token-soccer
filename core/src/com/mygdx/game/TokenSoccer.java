@@ -190,18 +190,14 @@ public class TokenSoccer extends Game {
 
         if (gameElements.getBallToken().token.getPosition().x < p1_goal) {
             gameElements.getPlayers().player2.scoreGoal();
-            batch.begin();
-            font.draw(batch, "Score:" + gameElements.getPlayers().player2.getScore(), width-100, height-20);
-            batch.end();
             reset();
         }
+
         if (gameElements.getBallToken().token.getPosition().x > p2_goal) {
             gameElements.getPlayers().player1.scoreGoal();
-            batch.begin();
-            font.draw(batch, "Score:" + gameElements.getPlayers().player1.getScore(), 0, height-20);
-            batch.end();
             reset();
         }
+
 		for (Token token : p1_soccer_players) {
 			if (token.token.getPosition().x < p1_goal || token.token.getPosition().x > p2_goal) {
 				token.changePosition(p1_goal + random.nextFloat() * (p2_goal - p1_goal), random.nextFloat() * (6 * height / 16) + height / 16);
@@ -219,13 +215,13 @@ public class TokenSoccer extends Game {
 		}
 	}
 
-	public boolean atRest() {
-	    if (! gameElements.getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+    public boolean atRest() {
+        if (! gameElements.getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
         for (int i = 0; i < gameElements.getPlayers().player1.getTokens().size(); i++) {
             if (! gameElements.getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
             if (! gameElements.getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
         }
-	    return true;
+        return true;
     }
 
 	private void reset() {
