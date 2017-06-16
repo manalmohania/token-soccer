@@ -68,13 +68,13 @@ public class TokenSoccer extends Game {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 - 50), "20"));
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50), "21"));
 
-		ballTexture = new Texture("ball.png");
-		p1Texture = new Texture("spain-32.png");
-		p2Texture = new Texture("germany-32.png");
-        woodHTexture = new Texture("wood_480x25.png");
-        woodVTexture = new Texture("wood_30x160.png");
-		fieldTexture = new Texture("field-480x360.png");
-		goalRight = new Texture("goal-60x100.png");
+		ballTexture = new Texture("core/assets/ball.png");
+		p1Texture = new Texture("core/assets/spain-32.png");
+		p2Texture = new Texture("core/assets/germany-32.png");
+        woodHTexture = new Texture("core/assets/wood_480x25.png");
+        woodVTexture = new Texture("core/assets/wood_30x160.png");
+		fieldTexture = new Texture("core/assets/field-480x360.png");
+		goalRight = new Texture("core/assets/goal-60x100.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -214,7 +214,7 @@ public class TokenSoccer extends Game {
 			}
 		}
 
-		if (!gameElements.getPlayers().getTimer().timeRemaining()) {
+		if (!gameElements.getPlayers().getTimer().expired()) {
 			gameElements.getPlayers().toggleTurns();
 		}
 	}
