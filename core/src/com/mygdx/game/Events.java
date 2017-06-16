@@ -30,7 +30,6 @@ public class Events implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("TOUCH DOWN");
         float x = Gdx.input.getX();
         float y = Gdx.graphics.getHeight() - Gdx.input.getY();
         // the next line is a bit of a hack and might not always work
@@ -55,8 +54,6 @@ public class Events implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("TOUCH UP");
-
         if (!game.atRest()) {
             return false;
         }
