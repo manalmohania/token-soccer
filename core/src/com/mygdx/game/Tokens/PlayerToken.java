@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Created by manalmohania on 13/6/17.
  */
-public class PlayerToken extends Token{
+public class PlayerToken extends Token {
     /*
     * tokenId is used for the bots and for communicating moves over the internet
     *
@@ -17,9 +17,13 @@ public class PlayerToken extends Token{
     * */
     private String tokenId;
 
-    public PlayerToken(World world, Vector2 initialPos, String tokenId){
+    public PlayerToken(World world, Vector2 initialPos, String tokenId) {
         // 5 is the radius of the player -- will probably increase its size in the end
-        super(world, initialPos, 8.0f);
+        this(world, initialPos, tokenId, 8.0f);
+    }
+
+    public PlayerToken(World world, Vector2 initialPos, String tokenId, float radius) {
+        super(world, initialPos, radius);
         this.tokenId = tokenId;
     }
 
@@ -29,7 +33,7 @@ public class PlayerToken extends Token{
         super.draw(batch, texture);
     }
 
-    public String getTokenId(){
+    public String getTokenId() {
         return tokenId;
     }
 }
