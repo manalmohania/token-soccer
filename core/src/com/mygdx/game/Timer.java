@@ -6,9 +6,10 @@ import java.text.DecimalFormat;
  * Created by allen on 14/06/17.
  */
 public class Timer {
-    private static final int TIME_LIMIT = 10; // in seconds
+    private static final int TIME_LIMIT = 50; // in seconds
     private double initialTime;
     private DecimalFormat df;
+
 
     public Timer() {
         initialTime = System.nanoTime();
