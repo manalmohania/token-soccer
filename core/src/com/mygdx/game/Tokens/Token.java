@@ -8,9 +8,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-/**
- * Created by manalmohania on 13/6/17.
- */
 public abstract class Token {
     private World world;
     public Vector2 initialPosition;
@@ -57,5 +54,4 @@ public abstract class Token {
     public static void dispose() {
         background.dispose();
     }
-
 }

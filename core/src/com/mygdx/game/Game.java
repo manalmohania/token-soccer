@@ -19,6 +19,22 @@ public class Game {
         this.timer = new Timer();
     }
 
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public BallToken getBallToken() {
+        return ballToken;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
     public Player currentPlayer() {
         return isP1Turn ? player1 : player2;
     }
@@ -28,14 +44,10 @@ public class Game {
         timer.reset();
     }
 
-    public BallToken getBallToken() {
-        return ballToken;
-    }
-
     public boolean atRest() {
         // TODO make system rest faster
         // Check that the ball is stationary
-        if (!getBallToken().body.getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
+        if (ballToken.body.getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
         // Check that each of the players tokens are stationary
         for (PlayerToken token : player1.getTokens())
             if (!token.atRest()) return false;
@@ -47,17 +59,5 @@ public class Game {
     public void makeMove(String tokenId, float angle, float len, float lastX, float lastY, float releaseX) {
         currentPlayer().makeMove(tokenId, angle, len, lastX, lastY, releaseX);
         toggleTurns();
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public Timer getTimer() {
-        return timer;
     }
 }
