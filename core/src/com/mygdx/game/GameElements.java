@@ -25,10 +25,11 @@ public class GameElements {
     }
 
     public boolean atRest() {
-        if (! getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        // TODO make system rest faster
+        if (! getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
         for (int i = 0; i < getPlayers().player1.getTokens().size(); i++) {
-            if (! getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-            if (! getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+            if (! getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
+            if (! getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
         }
         return true;
     }

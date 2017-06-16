@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
  * Created by allen on 14/06/17.
  */
 public class Timer {
-    private final int MAX_TURN_TIME = 10;
+    private final int MAX_TURN_TIME = 50;
     private final double secToNanosec = 1/1000000000.0;
     private double original_time;
     private DecimalFormat df;
