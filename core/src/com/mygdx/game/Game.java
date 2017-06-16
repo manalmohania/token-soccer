@@ -57,7 +57,6 @@ public class Game {
     }
 
     public void makeMove(String tokenId, float angle, float len, float lastX, float lastY, float releaseX) {
-        System.out.println("MAKING MOVE");
         currentPlayer().makeMove(tokenId, angle, len, lastX, lastY, releaseX);
         toggleTurns();
     }
