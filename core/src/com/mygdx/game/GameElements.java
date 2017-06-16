@@ -31,6 +31,7 @@ public class GameElements {
             if (! getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
         }
 
+        /*if the velocities of all components have been found to be low enough, set them to zero*/
         ballToken.token.setLinearVelocity(0, 0);
         for (int i = 0; i < getPlayers().player1.getTokens().size(); i++) {
             getPlayers().player1.getTokens().get(i).token.setLinearVelocity(0, 0);
