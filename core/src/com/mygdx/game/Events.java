@@ -58,17 +58,14 @@ public class Events implements InputProcessor {
             return false;
         }
 
-        if (lastToken == null) return true;
+        if (lastToken == null) return false;
         float releaseX = Gdx.input.getX() / 2;
         float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY()) / 2;
-
-        float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
-        float slope = (releaseY - lastY) / (releaseX - lastX);
-        if (Float.isNaN(slope)) {
-            return true;
+        if (releaseX - lastX == 0 || ((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)) < 1) {
+            System.out.println("returning from here");
+            return false;
         }
-        float angle = (float) Math.atan(slope);
-        game.makeMove(lastToken.getTokenID(), angle, len, lastX, lastY, releaseX);
+        game.makeMove(lastToken.getTokenID(), lastX, lastY, releaseX, releaseY);
 
         return true;
     }

@@ -15,9 +15,16 @@ public abstract class Player {
         this.tokens = tokens;
     }
 
-    public void makeMove(String id, float angle, float len, float lastX, float lastY, float releaseX) {
+    /**
+     * the mathod makes a move depending on certain parameters
+     *
+     * @param id : The id of the token
+     *           float an
+     * */
+    public void makeMove(String id, float lastX, float lastY, float releaseX, float releaseY) {
         // FIXME: Add comments please :)
-        len = Math.min(len, 20);
+        float len = (float) Math.min(Math.sqrt((lastX - releaseX) * (lastX - releaseX) + (lastY - releaseY) * (lastY - releaseY)), 20);
+        float angle = (float) Math.atan((releaseY - lastY)/(releaseX - lastX));
 
         PlayerToken lastToken = null;
         for (PlayerToken token : tokens) {
