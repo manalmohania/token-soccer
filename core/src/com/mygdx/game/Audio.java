@@ -11,8 +11,8 @@ public class Audio {
     private Sound goalMusic;
 
     Audio() {
-        this.backgroundMusic = Gdx.audio.newSound(Gdx.files.internal("meme.mp3"));
-        this.goalMusic = Gdx.audio.newSound(Gdx.files.internal("meme2.mp3"));
+        this.backgroundMusic = Gdx.audio.newSound(Gdx.files.internal("audio/meme.mp3"));
+        this.goalMusic = Gdx.audio.newSound(Gdx.files.internal("audio/meme2.mp3"));
     }
 
     public void playBackgroundMusic() {
