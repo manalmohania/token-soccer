@@ -53,11 +53,23 @@ public class Game {
             if (!token.atRest()) return false;
         for (PlayerToken token : player2.getTokens())
             if (!token.atRest()) return false;
+
+        makeStationary();
         return true;
     }
 
-    public void makeMove(String tokenId, float angle, float len, float lastX, float lastY, float releaseX) {
-        currentPlayer().makeMove(tokenId, angle, len, lastX, lastY, releaseX);
+    private void makeStationary() {
+        ballToken.getBody().setLinearVelocity(0, 0);
+        for (PlayerToken token : player1.getTokens()) {
+            token.getBody().setLinearVelocity(0, 0);
+        }
+        for (PlayerToken token : player2.getTokens()) {
+            token.getBody().setLinearVelocity(0, 0);
+        }
+    }
+
+    public void makeMove(String tokenId, float lastX, float lastY, float releaseX, float releaseY) {
+        currentPlayer().makeMove(tokenId, lastX, lastY, releaseX, releaseY);
         toggleTurns();
     }
 }
