@@ -18,7 +18,6 @@ import java.util.Random;
 
 // TODO - create the goal images
 // TODO - ensure that ball does not stick to side walls
-// TODO - next shot played only after system at rest
 // TODO - some more refactoring
 // TODO - menus
 // TODO - sound
@@ -38,6 +37,7 @@ public class TokenSoccer extends Game {
 	private BitmapFont font;
     private SpriteBatch batch;
     private GameElements gameElements;
+    private Audio audio;
 
 
     /*
@@ -84,6 +84,8 @@ public class TokenSoccer extends Game {
 		Events eventHandler = new Events(gameElements);
 		Gdx.input.setInputProcessor(eventHandler);
 
+		this.audio = new Audio();
+		audio.playBackgroundMusic();
 	}
 
 	private void createPlayers(String name1, String name2) {
@@ -189,6 +191,7 @@ public class TokenSoccer extends Game {
 
         if (gameElements.getBallToken().token.getPosition().x < p1_goal) {
             gameElements.getPlayers().player2.scoreGoal();
+            this.audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + gameElements.getPlayers().player2.getScore(), width-100, height-20);
             batch.end();
@@ -196,6 +199,7 @@ public class TokenSoccer extends Game {
         }
         if (gameElements.getBallToken().token.getPosition().x > p2_goal) {
             gameElements.getPlayers().player1.scoreGoal();
+            this.audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + gameElements.getPlayers().player1.getScore(), 0, height-20);
             batch.end();
