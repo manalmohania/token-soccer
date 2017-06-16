@@ -12,11 +12,6 @@ public class Timer {
     private DecimalFormat df;
     private boolean isRunning;
 
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
     public Timer() {
         this.isRunning = true;
         this.original_time = System.nanoTime();
@@ -45,7 +40,7 @@ public class Timer {
         return df.format(MAX_TURN_TIME - getTimeElapsed());
     }
 
-    public boolean timeRemaining() {
+    public boolean expired() {
         return this.getTimeElapsed() < MAX_TURN_TIME;
     }
 }
