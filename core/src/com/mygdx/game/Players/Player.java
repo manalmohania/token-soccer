@@ -32,9 +32,9 @@ public abstract class Player {
             throw new NullPointerException("lastToken should not be null");
 
         if (releaseX >= lastX)
-            lastToken.body.applyLinearImpulse((float) (-1000 * len * Math.cos(angle)), (float) (-1000 * len * Math.sin(angle)), lastX, lastY, false);
+            lastToken.getBody().applyLinearImpulse((float) (-1000 * len * Math.cos(angle)), (float) (-1000 * len * Math.sin(angle)), lastX, lastY, false);
         else
-            lastToken.body.applyLinearImpulse((float) (1000 * len * Math.cos(angle)), (float) (1000 * len * Math.sin(angle)), lastX, lastY, false);
+            lastToken.getBody().applyLinearImpulse((float) (1000 * len * Math.cos(angle)), (float) (1000 * len * Math.sin(angle)), lastX, lastY, false);
     }
 
     public int getScore() {

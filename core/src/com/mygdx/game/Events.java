@@ -21,8 +21,8 @@ public class Events implements InputProcessor {
             float xPos = token.getX();
             float yPos = token.getY();
             // detect if the touch was inside a body
-            if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
-                return body;
+            if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= token.getRadius() * token.getRadius()) {
+                return token;
             }
         }
         return null;

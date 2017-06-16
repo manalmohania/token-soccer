@@ -18,8 +18,8 @@ public class RandomBot extends BotPlayer {
         PlayerToken token = this.tokens.get(random.nextInt(tokens.size()));
         float angle = (float) (random.nextFloat() * Math.PI - (Math.PI / 2));
         float len = random.nextFloat() * 20;
-        float lastX = token.body.getPosition().x;
-        float lastY = token.body.getPosition().y;
+        float lastX = token.getX();
+        float lastY = token.getY();
         float releaseX = random.nextFloat() * Gdx.graphics.getWidth();
         // Make the move
         super.makeMove(token.getTokenID(), angle, len, lastX, lastY, releaseX);

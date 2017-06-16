@@ -10,9 +10,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Token {
     private World world;
-    public Vector2 initialPosition;
-    public float radius;
-    public Body body;
+    private Vector2 initialPosition;
+    private float radius;
+    private Body body;
     static Texture background = new Texture("core/assets/ring-33.png");
 
     public Token(World world, Vector2 initialPosition, float radius) {
@@ -45,6 +45,18 @@ public abstract class Token {
 
     public boolean atRest() {
         return body.getLinearVelocity().epsilonEquals(0, 0, 1f);
+    }
+
+    public Vector2 getInitialPosition() {
+        return initialPosition;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public Body getBody() {
+        return body;
     }
 
     public float getX() {
