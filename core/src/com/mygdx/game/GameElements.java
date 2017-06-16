@@ -23,4 +23,13 @@ public class GameElements {
     public BallToken getBallToken() {
         return ballToken;
     }
+
+    public boolean atRest() {
+        if (! getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        for (int i = 0; i < getPlayers().player1.getTokens().size(); i++) {
+            if (! getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+            if (! getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
+        }
+        return true;
+    }
 }

@@ -81,8 +81,6 @@ public class TokenSoccer extends Game {
 		String name2 = "Bob2";
 		createPlayers(name1, name2);
 
-
-
 		Events eventHandler = new Events(gameElements);
 		Gdx.input.setInputProcessor(eventHandler);
 
@@ -93,7 +91,8 @@ public class TokenSoccer extends Game {
 		gameElements = new GameElements(
 		        new Players(
 		                new HumanPlayer(name1, p1_soccer_players),
-                        new RandomBot(name2, p2_soccer_players)
+                        new HumanPlayer(name2, p2_soccer_players)
+						// new RandomBot(name2, p2_soccer_players)
                 ),
                 new BallToken(world, new Vector2(width / 4, height /4))
         );
@@ -218,15 +217,6 @@ public class TokenSoccer extends Game {
 			gameElements.getPlayers().toggleTurns();
 		}
 	}
-
-	public boolean atRest() {
-	    if (! gameElements.getBallToken().token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-        for (int i = 0; i < gameElements.getPlayers().player1.getTokens().size(); i++) {
-            if (! gameElements.getPlayers().player1.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-            if (! gameElements.getPlayers().player2.getTokens().get(i).token.getLinearVelocity().epsilonEquals(0, 0, 0.01f)) return false;
-        }
-	    return true;
-    }
 
 	private void reset() {
 		gameElements.getBallToken().changePosition(gameElements.getBallToken().initialPosition.x, gameElements.getBallToken().initialPosition.y);

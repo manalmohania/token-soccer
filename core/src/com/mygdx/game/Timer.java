@@ -7,8 +7,10 @@ import java.text.DecimalFormat;
  */
 public class Timer {
     private final int MAX_TURN_TIME = 10;
+    private final double secToNanosec = 1/1000000000.0;
     private double original_time;
     private DecimalFormat df;
+
 
     public Timer() {
         original_time = System.nanoTime();
@@ -20,11 +22,11 @@ public class Timer {
     }
 
     public double getTimeElapsed() {
-        return (System.nanoTime() - original_time)/1000000000.0;
+        return (System.nanoTime() - original_time) * secToNanosec;
     }
 
     public String getTimeRemaining() {
-        return df.format(MAX_TURN_TIME - (System.nanoTime() - original_time)/1000000000.0);
+        return df.format(MAX_TURN_TIME - (System.nanoTime() - original_time)*secToNanosec);
     }
 
     public boolean timeRemaining() {
