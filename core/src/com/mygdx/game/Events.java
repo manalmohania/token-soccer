@@ -8,7 +8,6 @@ import com.mygdx.game.Tokens.PlayerToken;
  * Created by manalmohania on 13/6/17.
  */
 public class Events implements InputProcessor {
-
     private GameElements gameElements;
     private float lastX, lastY;
     private PlayerToken lastToken;

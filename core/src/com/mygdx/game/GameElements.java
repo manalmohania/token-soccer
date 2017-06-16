@@ -7,7 +7,6 @@ import com.mygdx.game.Tokens.BallToken;
  * Created by manalmohania on 15/6/17.
  */
 public class GameElements {
-
     private Players players;
     private BallToken ballToken;
 
