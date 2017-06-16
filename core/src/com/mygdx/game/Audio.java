@@ -22,4 +22,9 @@ public class Audio {
     public void playGoalMusic() {
         this.goalMusic.play();
     }
+
+    public void dispose() {
+        backgroundMusic.dispose();
+        goalMusic.dispose();
+    }
 }

@@ -253,5 +253,6 @@ public class TokenSoccer extends Game {
         woodHTexture.dispose();
         fieldTexture.dispose();
         Token.dispose();
+        audio.dispose();
 	}
 }
