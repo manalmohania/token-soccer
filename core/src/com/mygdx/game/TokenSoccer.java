@@ -36,6 +36,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private Game game;
     private Audio audio;
+    private String pathToTokens = "images/tokens/";
+    private String pathToField = "images/field/";
 
     /*
     * The game will NOT work right now if player 1 is a bot. I'll make those changes later today.
@@ -68,13 +70,13 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
 		p2Tokens.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 - 50), "20"));
 		p2Tokens.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50), "21"));
 
-		ballTexture = new Texture("core/assets/ball.png");
-		p1Texture = new Texture("core/assets/spain-32.png");
-		p2Texture = new Texture("core/assets/germany-32.png");
-        woodHTexture = new Texture("core/assets/wood_480x25.png");
-        woodVTexture = new Texture("core/assets/wood_30x160.png");
-		fieldTexture = new Texture("core/assets/field-480x360.png");
-		goalRight = new Texture("core/assets/goal-60x100.png");
+		ballTexture = new Texture(pathToTokens + "ball.png");
+		p1Texture = new Texture(pathToTokens + "spain-32.png");
+		p2Texture = new Texture(pathToTokens + "germany-32.png");
+        woodHTexture = new Texture(pathToField + "wood_480x25.png");
+        woodVTexture = new Texture(pathToField + "wood_30x160.png");
+		fieldTexture = new Texture(pathToField + "field-480x360.png");
+		goalRight = new Texture(pathToField + "goal-60x100.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -255,5 +257,6 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         woodHTexture.dispose();
         fieldTexture.dispose();
         Token.dispose();
+        audio.dispose();
 	}
 }

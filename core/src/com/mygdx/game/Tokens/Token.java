@@ -13,7 +13,7 @@ public abstract class Token {
     private Vector2 initialPosition;
     private float radius;
     private Body body;
-    static Texture background = new Texture("core/assets/ring-33.png");
+    static Texture background = new Texture("images/tokens/ring-33.png");
 
     public Token(World world, Vector2 initialPosition, float radius) {
         this.world = world;
