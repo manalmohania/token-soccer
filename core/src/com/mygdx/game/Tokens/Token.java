@@ -15,14 +15,14 @@ public abstract class Token {
     private World world;
     public Vector2 initialPosition;
     public float radius;
-    public Body token;
-    static Texture background = new Texture("ring-33.png");
+    public Body body;
+    static Texture background = new Texture("core/assets/ring-33.png");
 
     public Token(World world, Vector2 initialPosition, float radius) {
         this.world = world;
         this.initialPosition = initialPosition;
         this.radius = radius;
-        this.token = createSoccerPlayer(initialPosition.x, initialPosition.y, radius);
+        this.body = createSoccerPlayer(initialPosition.x, initialPosition.y, radius);
     }
 
     private Body createSoccerPlayer(float x, float y, float radius) {
@@ -42,12 +42,16 @@ public abstract class Token {
     }
 
     public void changePosition(float newX, float newY) {
-        this.token.setTransform(newX, newY, 0);
-        this.token.setLinearVelocity(0, 0);
+        body.setTransform(newX, newY, 0);
+        body.setLinearVelocity(0, 0);
+    }
+
+    public boolean atRest() {
+        return body.getLinearVelocity().epsilonEquals(0, 0, 1f);
     }
 
     public void draw(SpriteBatch batch, Texture texture) {
-        batch.draw(texture, token.getPosition().x * 2 - texture.getWidth()/2, token.getPosition().y * 2 - texture.getHeight()/2);
+        batch.draw(texture, body.getPosition().x * 2 - texture.getWidth()/2, body.getPosition().y * 2 - texture.getHeight()/2);
     }
 
     public static void dispose() {

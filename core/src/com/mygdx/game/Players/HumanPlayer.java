@@ -2,14 +2,10 @@ package com.mygdx.game.Players;
 
 import com.mygdx.game.Tokens.PlayerToken;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by manalmohania on 15/6/17.
- */
 public class HumanPlayer extends Player {
-
-    public HumanPlayer(String name, ArrayList<PlayerToken> tokens) {
+    public HumanPlayer(String name, List<PlayerToken> tokens) {
         super(name, tokens);
     }
 

@@ -13,7 +13,7 @@ public class PlayerToken extends Token {
     * tokenId is used for the bots and for communicating moves over the internet
     *
     * Assume a max of ten tokens per team
-    * A token id is formed as follows "" + <team number> (1 to 2) + <token number> (0 to 9)
+    * A body id is formed as follows "" + <team number> (1 to 2) + <body number> (0 to 9)
     * */
     private String tokenId;
 
@@ -36,4 +36,5 @@ public class PlayerToken extends Token {
     public String getTokenId() {
         return tokenId;
     }
+
 }
