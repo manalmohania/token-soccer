@@ -17,9 +17,9 @@ public class Events implements InputProcessor {
     }
 
     private PlayerToken contains(float x, float y) {
-        for (PlayerToken body : game.currentPlayer().getTokens()) {
-            float xPos = body.body.getPosition().x;
-            float yPos = body.body.getPosition().y;
+        for (PlayerToken token : game.currentPlayer().getTokens()) {
+            float xPos = token.getX();
+            float yPos = token.getY();
             // detect if the touch was inside a body
             if ((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos) <= body.radius * body.radius) {
                 return body;

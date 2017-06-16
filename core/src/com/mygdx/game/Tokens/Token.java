@@ -47,6 +47,14 @@ public abstract class Token {
         return body.getLinearVelocity().epsilonEquals(0, 0, 1f);
     }
 
+    public float getX() {
+        return body.getPosition().x;
+    }
+
+    public float getY() {
+        return body.getPosition().y;
+    }
+
     public void draw(SpriteBatch batch, Texture texture) {
         batch.draw(texture, body.getPosition().x * 2 - texture.getWidth()/2, body.getPosition().y * 2 - texture.getHeight()/2);
     }
