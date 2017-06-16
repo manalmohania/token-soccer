@@ -14,12 +14,12 @@ public class PlayerToken extends Token {
      */
     private String tokenID;
 
-    public PlayerToken(World world, Vector2 initialPos, String tokenID) {
-        this(world, initialPos, tokenID, 8.0f);
+    public PlayerToken(Vector2 initialPos, String tokenID, World world) {
+        this(initialPos, tokenID, 8.0f, world);
     }
 
-    public PlayerToken(World world, Vector2 initialPos, String tokenID, float radius) {
-        super(world, initialPos, radius);
+    public PlayerToken(Vector2 initialPos, String tokenID, float radius, World world) {
+        super(initialPos, radius, world);
         this.tokenID = tokenID;
     }
 

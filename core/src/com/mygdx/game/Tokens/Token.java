@@ -9,20 +9,18 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Token {
-    private World world;
     private Vector2 initialPosition;
     private float radius;
     private Body body;
     static Texture background = new Texture("images/tokens/ring-33.png");
 
-    public Token(World world, Vector2 initialPosition, float radius) {
-        this.world = world;
+    public Token(Vector2 initialPosition, float radius, World world) {
         this.initialPosition = initialPosition;
         this.radius = radius;
-        this.body = createSoccerPlayer(initialPosition.x, initialPosition.y, radius);
+        this.body = createSoccerPlayer(world, initialPosition.x, initialPosition.y, radius);
     }
 
-    private Body createSoccerPlayer(float x, float y, float radius) {
+    private Body createSoccerPlayer(World world, float x, float y, float radius) {
         Body pBody;
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
