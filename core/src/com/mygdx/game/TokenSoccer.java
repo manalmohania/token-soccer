@@ -38,6 +38,8 @@ public class TokenSoccer extends Game {
     private SpriteBatch batch;
     private GameElements gameElements;
     private Audio audio;
+    private String pathToTokens = "images/tokens/";
+    private String pathToField = "images/field/";
 
 
     /*
@@ -68,13 +70,13 @@ public class TokenSoccer extends Game {
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 - 50), "20"));
 		p2_soccer_players.add(new PlayerToken(world, new Vector2(width / 4 + 50, height / 4 + 50), "21"));
 
-		ballTexture = new Texture("ball.png");
-		p1Texture = new Texture("spain-32.png");
-		p2Texture = new Texture("germany-32.png");
-        woodHTexture = new Texture("wood_480x25.png");
-        woodVTexture = new Texture("wood_30x160.png");
-		fieldTexture = new Texture("field-480x360.png");
-		goalRight = new Texture("goal-60x100.png");
+		ballTexture = new Texture(pathToTokens + "ball.png");
+		p1Texture = new Texture(pathToTokens + "spain-32.png");
+		p2Texture = new Texture(pathToTokens + "germany-32.png");
+        woodHTexture = new Texture(pathToField + "wood_480x25.png");
+        woodVTexture = new Texture(pathToField + "wood_30x160.png");
+		fieldTexture = new Texture(pathToField + "field-480x360.png");
+		goalRight = new Texture(pathToField + "goal-60x100.png");
 
 		// Temporarily putting here
 		String name1 = "Bob";
@@ -253,5 +255,6 @@ public class TokenSoccer extends Game {
         woodHTexture.dispose();
         fieldTexture.dispose();
         Token.dispose();
+        audio.dispose();
 	}
 }
