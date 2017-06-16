@@ -15,6 +15,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public boolean isBot() {
-        return true;
+        return false;
     }
 }

@@ -103,13 +103,15 @@ public class Events implements InputProcessor {
         float releaseX = Gdx.input.getX()/2;
         float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY())/2;
 
-        float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
-        float slope = (releaseY - lastY)/(releaseX - lastX);
-        if (Float.isNaN(slope)) {
-            return true;
+        if (gameElements.getPlayers().player1.isBot() || gameElements.getPlayers().player2.isBot()) {
+            float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
+            float slope = (releaseY - lastY) / (releaseX - lastX);
+            if (Float.isNaN(slope)) {
+                return true;
+            }
+            float angle = (float) Math.atan(slope);
+            gameElements.getPlayers().makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
         }
-        float angle = (float) Math.atan(slope);
-        gameElements.getPlayers().makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
 
         return true;
     }

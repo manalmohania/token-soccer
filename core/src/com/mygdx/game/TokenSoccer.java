@@ -91,8 +91,8 @@ public class TokenSoccer extends Game {
 		gameElements = new GameElements(
 		        new Players(
 		                new HumanPlayer(name1, p1_soccer_players),
-                        // new HumanPlayer(name2, p2_soccer_players)
-						new RandomBot(name2, p2_soccer_players)
+                        new HumanPlayer(name2, p2_soccer_players)
+						//new RandomBot(name2, p2_soccer_players)
                 ),
                 new BallToken(world, new Vector2(width / 4, height /4))
         );
