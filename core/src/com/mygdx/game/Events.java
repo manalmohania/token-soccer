@@ -99,16 +99,11 @@ public class Events implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
-        if (!gameElements.getPlayers().player1.isBot() && !gameElements.getPlayers().player2.isBot()) {
-            if (!gameElements.atRest()) {
-                return false;
-            }
-        }
+        if (!gameElements.atRest()) {return false;}
 
         if (lastToken == null) return true;
         float releaseX = Gdx.input.getX()/2;
         float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY())/2;
-
 
         float len = Math.max(20, (float) Math.sqrt((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)));
         float slope = (releaseY - lastY) / (releaseX - lastX);
@@ -117,7 +112,6 @@ public class Events implements InputProcessor {
         }
         float angle = (float) Math.atan(slope);
         gameElements.getPlayers().makeMove(lastToken.getTokenId(), angle, len, lastX, lastY, releaseX);
-
 
         return true;
     }
