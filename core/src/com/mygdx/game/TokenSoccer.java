@@ -37,8 +37,6 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private Game game;
     private Audio audio;
-    private String pathToTokens = "images/tokens/";
-    private String pathToField = "images/field/";
 
     /*
     * The game will NOT work right now if player 1 is a bot. I'll make those changes later today.
@@ -71,6 +69,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 - 50), "20", world));
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
+        String pathToTokens = "images/tokens/";
+        String pathToField = "images/field/";
         ballTexture = new Texture(pathToTokens + "ball.png");
         p1Texture = new Texture(pathToTokens + "spain-32.png");
         p2Texture = new Texture(pathToTokens + "germany-32.png");
