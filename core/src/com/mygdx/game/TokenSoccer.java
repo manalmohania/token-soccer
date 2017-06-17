@@ -171,11 +171,16 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         font.draw(batch, "Timer:" + game.getTimer().getTimeRemaining(), width / 2 - 100, height);
         batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth() / 2, 2 * height / 4 - fieldTexture.getHeight() / 2);
         batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight() / 2);
-        game.getBallToken().draw(batch, ballTexture);
+        if (game.atRest()) {
+            for (PlayerToken token : game.currentPlayer().getTokens()) {
+                token.drawRing(batch);
+            }
+        }
         for (int i = 0; i < game.getPlayer1().getTokens().size(); i++) {
             game.getPlayer1().getTokens().get(i).draw(batch, p1Texture);
             game.getPlayer2().getTokens().get(i).draw(batch, p2Texture);
         }
+        game.getBallToken().draw(batch, ballTexture);
         batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth() / 2, 2 * 7 * height / 16 - 4);
         batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth() / 2, 2 * height / 16 - woodHTexture.getHeight() + 5);
         batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2 * height / 8 - woodVTexture.getHeight() / 2);
@@ -256,6 +261,7 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         woodHTexture.dispose();
         fieldTexture.dispose();
         Token.dispose();
+        PlayerToken.dispose();
         audio.dispose();
     }
 }

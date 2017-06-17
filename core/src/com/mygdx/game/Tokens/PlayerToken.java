@@ -13,6 +13,7 @@ public class PlayerToken extends Token {
      * A body ID is formed as follows "" + <team number> (1 to 2) + <body number> (0 to 9)
      */
     private String tokenID;
+    private static Texture texture = new Texture("images/tokens/my-yellow-ring-64.png");
 
     public PlayerToken(Vector2 initialPos, String tokenID, World world) {
         this(initialPos, tokenID, 8.0f, world);
@@ -29,8 +30,16 @@ public class PlayerToken extends Token {
         super.draw(batch, texture);
     }
 
+    public void drawRing(SpriteBatch batch) {
+        batch.draw(texture, 2 * getX() - texture.getWidth() / 2, 2 * getY() - texture.getHeight() / 2);
+    }
+
     public String getTokenID() {
         return tokenID;
+    }
+
+    public static void dispose() {
+        texture.dispose();
     }
 
 }
