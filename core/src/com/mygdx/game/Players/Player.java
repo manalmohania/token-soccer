@@ -26,7 +26,7 @@ public abstract class Player {
      * */
     public void makeMove(String id, float lastX, float lastY, float releaseX, float releaseY) {
         // calculate the length and angle between the click and release coordinates
-        float len = (float) Math.min(Math.sqrt((lastX - releaseX) * (lastX - releaseX) + (lastY - releaseY) * (lastY - releaseY)), 20);
+        float len = (float) Math.min(Math.sqrt((lastX - releaseX) * (lastX - releaseX) + (lastY - releaseY) * (lastY - releaseY)), 50);
         float angle = (float) Math.atan((releaseY - lastY)/(releaseX - lastX));
 
         PlayerToken lastToken = null;

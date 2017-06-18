@@ -74,8 +74,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         ballTexture = new Texture(pathToTokens + "ball.png");
         p1Texture = new Texture(pathToTokens + "spain-32.png");
         p2Texture = new Texture(pathToTokens + "germany-32.png");
-        woodHTexture = new Texture(pathToField + "wood_480x25.png");
-        woodVTexture = new Texture(pathToField + "wood-30x150.png");
+        woodHTexture = new Texture(pathToField + "wood-500x20.png");
+        woodVTexture = new Texture(pathToField + "wood-20x140.png");
         fieldTexture = new Texture(pathToField + "field-480x360.png");
         goalRight = new Texture(pathToField + "ugly-right-goal-60x100.png");
         goalLeft = new Texture(pathToField + "ugly-left-goal-60x100.png");
@@ -103,14 +103,14 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private void createBoundary() {
         FixtureDef fixtureDefVertical = new FixtureDef();
         fixtureDefVertical.restitution = 1.1f;
-        fixtureDefVertical.friction = 0.8f;
+        fixtureDefVertical.friction = 0.2f;
         PolygonShape polygonShape = new PolygonShape();
         polygonShape.setAsBox(2, height / 16);
         fixtureDefVertical.shape = polygonShape;
 
         FixtureDef fixtureDefHorizontal = new FixtureDef();
         fixtureDefHorizontal.restitution = 1.1f;
-        fixtureDefHorizontal.friction = 0.8f;
+        fixtureDefHorizontal.friction = 0.2f;
         PolygonShape polygonShape2 = new PolygonShape();
         polygonShape2.setAsBox(3 * width / 16, 2);
         fixtureDefHorizontal.shape = polygonShape2;
