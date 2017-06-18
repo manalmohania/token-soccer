@@ -75,9 +75,10 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         p1Texture = new Texture(pathToTokens + "spain-32.png");
         p2Texture = new Texture(pathToTokens + "germany-32.png");
         woodHTexture = new Texture(pathToField + "wood_480x25.png");
-        woodVTexture = new Texture(pathToField + "wood_30x160.png");
+        woodVTexture = new Texture(pathToField + "wood-30x150.png");
         fieldTexture = new Texture(pathToField + "field-480x360.png");
-        goalRight = new Texture(pathToField + "goal-60x100.png");
+        goalRight = new Texture(pathToField + "ugly-right-goal-60x100.png");
+        goalLeft = new Texture(pathToField + "ugly-left-goal-60x100.png");
 
         // Temporarily putting here
         String name1 = "Bob";
@@ -170,7 +171,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         font.draw(batch, "Score:" + game.getPlayer2().getScore(), width - 100, height - 20);
         font.draw(batch, "Timer:" + game.getTimer().getTimeRemaining(), width / 2 - 100, height);
         batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth() / 2, 2 * height / 4 - fieldTexture.getHeight() / 2);
-        batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight() / 2);
+        batch.draw(goalRight, 2 * p2Goal, 2 * 2 * height / 8 - goalRight.getHeight() / 2);
+        batch.draw(goalLeft, 2 * p1Goal - goalLeft.getWidth(), 2 * 2 * height / 8 -  goalLeft.getHeight() / 2);
         if (game.atRest()) {
             for (PlayerToken token : game.currentPlayer().getTokens()) {
                 token.drawRing(batch);
@@ -260,6 +262,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         woodVTexture.dispose();
         woodHTexture.dispose();
         fieldTexture.dispose();
+        goalLeft.dispose();
+        goalRight.dispose();
         Token.dispose();
         PlayerToken.dispose();
         audio.dispose();

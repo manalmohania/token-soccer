@@ -47,7 +47,7 @@ public class Game {
     public boolean atRest() {
         // TODO make system rest faster
         // Check that the ball is stationary
-        if (!ballToken.getBody().getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
+        if (!ballToken.getBody().getLinearVelocity().epsilonEquals(0, 0, 3f)) return false;
         // Check that each of the players tokens are stationary
         for (PlayerToken token : player1.getTokens())
             if (!token.atRest()) return false;

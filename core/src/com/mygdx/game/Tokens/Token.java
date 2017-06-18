@@ -42,7 +42,7 @@ public abstract class Token {
     }
 
     public boolean atRest() {
-        return body.getLinearVelocity().epsilonEquals(0, 0, 1f);
+        return body.getLinearVelocity().epsilonEquals(0, 0, 3f);
     }
 
     public Vector2 getInitialPosition() {
