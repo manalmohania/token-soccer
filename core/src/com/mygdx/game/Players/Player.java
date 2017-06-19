@@ -37,7 +37,7 @@ public abstract class Player {
             }
         }
 
-        float lengthToImpulse = 1000; // increase this number to increase shot strength
+        float lengthToImpulse = 10000; // increase this number to increase shot strength
 
         // This should not happen
         if (lastToken == null)

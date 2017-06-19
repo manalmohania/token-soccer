@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Players.HumanPlayer;
 import com.mygdx.game.Players.RandomBot;
 import com.mygdx.game.Tokens.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,7 +18,6 @@ import java.util.Random;
 // TODO - ensure that ball does not stick to side walls
 // TODO - some more refactoring
 // TODO - menus
-// TODO - sound
 // TODO - network stuff - TCP
 
 public class TokenSoccer extends com.badlogic.gdx.Game {
@@ -37,6 +35,9 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private Game game;
     private Audio audio;
+    private String pathToTokens = "images/tokens/";
+    private String pathToField = "images/field/";
+    private Events eventHandler;
 
     /*
     * The game will NOT work right now if player 1 is a bot. I'll make those changes later today.
@@ -69,8 +70,6 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 - 50), "20", world));
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
-        String pathToTokens = "images/tokens/";
-        String pathToField = "images/field/";
         ballTexture = new Texture(pathToTokens + "ball.png");
         p1Texture = new Texture(pathToTokens + "spain-32.png");
         p2Texture = new Texture(pathToTokens + "germany-32.png");
@@ -85,7 +84,9 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         String name2 = "Bob2";
         createPlayers(name1, name2);
 
-        Events eventHandler = new Events(game);
+
+
+        this.eventHandler = new Events(game);
         Gdx.input.setInputProcessor(eventHandler);
 
         this.audio = new Audio();
@@ -97,52 +98,52 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         game = new Game(
                 new HumanPlayer(name1, p1Tokens),
                 new RandomBot(name2, p2Tokens),
-                new BallToken(new Vector2(width / 4, height / 4), world));
+                new BallToken(new Vector2(width / 4, height /4), world));
     }
 
-    private void createBoundary() {
+    private void createBoundary(){
         FixtureDef fixtureDefVertical = new FixtureDef();
         fixtureDefVertical.restitution = 1.1f;
-        fixtureDefVertical.friction = 0.2f;
+        fixtureDefVertical.friction = 0.8f;
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(2, height / 16);
+        polygonShape.setAsBox(2 , height/16 );
         fixtureDefVertical.shape = polygonShape;
 
         FixtureDef fixtureDefHorizontal = new FixtureDef();
         fixtureDefHorizontal.restitution = 1.1f;
-        fixtureDefHorizontal.friction = 0.2f;
+        fixtureDefHorizontal.friction = 0.8f;
         PolygonShape polygonShape2 = new PolygonShape();
-        polygonShape2.setAsBox(3 * width / 16, 2);
+        polygonShape2.setAsBox(3 * width / 16 , 2 );
         fixtureDefHorizontal.shape = polygonShape2;
 
         BodyDef leftDefLower = new BodyDef();
         leftDefLower.type = BodyDef.BodyType.StaticBody;
-        leftDefLower.position.set(width / 16, height / 8);
+        leftDefLower.position.set(width / 16 , height / 8 );
         Body leftLower = world.createBody(leftDefLower);
 
         BodyDef leftDefUpper = new BodyDef();
         leftDefUpper.type = BodyDef.BodyType.StaticBody;
-        leftDefUpper.position.set(width / 16, 3 * height / 8);
+        leftDefUpper.position.set(width / 16 , 3 * height / 8 );
         Body leftUpper = world.createBody(leftDefUpper);
 
         BodyDef rightDefLower = new BodyDef();
         rightDefLower.type = BodyDef.BodyType.StaticBody;
-        rightDefLower.position.set(7 * width / 16, height / 8);
+        rightDefLower.position.set(7 * width / 16 , height/ 8 );
         Body rightLower = world.createBody(rightDefLower);
 
         BodyDef rightDefUpper = new BodyDef();
         rightDefUpper.type = BodyDef.BodyType.StaticBody;
-        rightDefUpper.position.set(7 * width / 16, 3 * height / 8);
+        rightDefUpper.position.set(7 * width / 16, 3 * height/ 8);
         Body rightUpper = world.createBody(rightDefUpper);
 
         BodyDef upDef = new BodyDef();
         upDef.type = BodyDef.BodyType.StaticBody;
-        upDef.position.set(width / 4, 7 * height / 16);
+        upDef.position.set(width / 4 ,  7 * height / 16 );
         Body up = world.createBody(upDef);
 
         BodyDef downDef = new BodyDef();
         downDef.type = BodyDef.BodyType.StaticBody;
-        downDef.position.set(width / 4, height / 16);
+        downDef.position.set(width / 4 , height / 16 );
         Body down = world.createBody(downDef);
 
         leftLower.createFixture(fixtureDefVertical);
@@ -166,27 +167,21 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         batch.begin();
         //TODO some function that correctly positions
         font.draw(batch, game.getPlayer2().getName(), 0, height);
-        font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height - 20);
-        font.draw(batch, game.getPlayer2().getName(), width - 100, height);
-        font.draw(batch, "Score:" + game.getPlayer2().getScore(), width - 100, height - 20);
-        font.draw(batch, "Timer:" + game.getTimer().getTimeRemaining(), width / 2 - 100, height);
-        batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth() / 2, 2 * height / 4 - fieldTexture.getHeight() / 2);
-        batch.draw(goalRight, 2 * p2Goal, 2 * 2 * height / 8 - goalRight.getHeight() / 2);
-        batch.draw(goalLeft, 2 * p1Goal - goalLeft.getWidth(), 2 * 2 * height / 8 -  goalLeft.getHeight() / 2);
-        if (game.atRest()) {
-            for (PlayerToken token : game.currentPlayer().getTokens()) {
-                token.drawRing(batch);
-            }
-        }
+        font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height-20);
+        font.draw(batch, game.getPlayer2().getName(), width-100,height);
+        font.draw(batch, "Score:" + game.getPlayer2().getScore(), width-100, height-20);
+        font.draw(batch, "Timer:" + game.getTimer().getTimeRemaining(), width/2 - 100, height);
+        batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
+        batch.draw(goalRight, 2 * 7 * width / 16, 2 * 2 * height / 8 - goalRight.getHeight()/2);
+        game.getBallToken().draw(batch, ballTexture);
         for (int i = 0; i < game.getPlayer1().getTokens().size(); i++) {
             game.getPlayer1().getTokens().get(i).draw(batch, p1Texture);
             game.getPlayer2().getTokens().get(i).draw(batch, p2Texture);
         }
-        game.getBallToken().draw(batch, ballTexture);
-        batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth() / 2, 2 * 7 * height / 16 - 4);
-        batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth() / 2, 2 * height / 16 - woodHTexture.getHeight() + 5);
-        batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2 * height / 8 - woodVTexture.getHeight() / 2);
-        batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2 * 3 * height / 8 - woodVTexture.getHeight() / 2);
+        batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * 7 * height / 16 - 4);
+        batch.draw(woodHTexture, 2 * width / 4 - woodHTexture.getWidth()/2, 2 * height / 16 - woodHTexture.getHeight() + 5);
+        batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2 * height / 8 - woodVTexture.getHeight()/2);
+        batch.draw(woodVTexture, 2 * width / 16 - woodVTexture.getWidth() + 4, 2* 3 * height / 8 - woodVTexture.getHeight()/2);
         batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * height / 8 - woodVTexture.getHeight() / 2);
         batch.draw(woodVTexture, 2 * 7 * width / 16 - 5, 2 * 3 * height / 8 - woodVTexture.getHeight() / 2);
         batch.end();
@@ -196,10 +191,10 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         world.step(deltaTime, 6, 2);
 
         if (game.getBallToken().getX() < p1Goal) {
-            game.getPlayer2().scoreGoal();
+            game.getPlayer2().scoreGoal();;
             audio.playGoalMusic();
             batch.begin();
-            font.draw(batch, "Score:" + game.getPlayer2().getScore(), width - 100, height - 20);
+            font.draw(batch, "Score:" + game.getPlayer2().getScore(), width-100, height-20);
             batch.end();
             reset();
         }
@@ -208,7 +203,7 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
             game.getPlayer1().scoreGoal();
             audio.playGoalMusic();
             batch.begin();
-            font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height - 20);
+            font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height-20);
             batch.end();
             reset();
         }
@@ -231,6 +226,10 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
 
         if (game.atRest()) {
             game.getTimer().start();
+        }
+
+        if (game.currentPlayer().isBot() && game.atRest()) {
+            game.makeBotMove();
         }
     }
 
@@ -262,10 +261,9 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         woodVTexture.dispose();
         woodHTexture.dispose();
         fieldTexture.dispose();
+        Token.dispose();
+        audio.dispose();
         goalLeft.dispose();
         goalRight.dispose();
-        Token.dispose();
-        PlayerToken.dispose();
-        audio.dispose();
     }
 }

@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.mygdx.game.Players.Player;
+import com.mygdx.game.Players.RandomBot;
 import com.mygdx.game.Tokens.BallToken;
 import com.mygdx.game.Tokens.PlayerToken;
 
@@ -11,7 +12,7 @@ public class Game {
     private boolean isP1Turn;
     private Timer timer;
 
-    public Game(Player player1, Player player2, BallToken ballToken) {
+    Game(Player player1, Player player2, BallToken ballToken) {
         this.player1 = player1;
         this.player2 = player2;
         this.ballToken = ballToken;
@@ -47,7 +48,7 @@ public class Game {
     public boolean atRest() {
         // TODO make system rest faster
         // Check that the ball is stationary
-        if (!ballToken.getBody().getLinearVelocity().epsilonEquals(0, 0, 3f)) return false;
+        if (!ballToken.getBody().getLinearVelocity().epsilonEquals(0, 0, 1f)) return false;
         // Check that each of the players tokens are stationary
         for (PlayerToken token : player1.getTokens())
             if (!token.atRest()) return false;
@@ -70,6 +71,12 @@ public class Game {
 
     public void makeMove(String tokenId, float lastX, float lastY, float releaseX, float releaseY) {
         currentPlayer().makeMove(tokenId, lastX, lastY, releaseX, releaseY);
+        toggleTurns();
+    }
+
+    public void makeBotMove() {
+        RandomBot randomBot = (RandomBot) currentPlayer();
+        randomBot.makeMove();
         toggleTurns();
     }
 }
