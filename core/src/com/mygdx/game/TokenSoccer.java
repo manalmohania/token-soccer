@@ -35,8 +35,6 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private Game game;
     private Audio audio;
-    private String pathToTokens = "images/tokens/";
-    private String pathToField = "images/field/";
 
 
     /*
@@ -70,6 +68,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 - 50), "20", world));
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
+        String pathToTokens = "images/tokens/";
+        String pathToField = "images/field/";
         ballTexture = new Texture(pathToTokens + "ball.png");
         p1Texture = new Texture(pathToTokens + "spain-32.png");
         p2Texture = new Texture(pathToTokens + "germany-32.png");
@@ -104,14 +104,14 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private void createBoundary(){
         FixtureDef fixtureDefVertical = new FixtureDef();
         fixtureDefVertical.restitution = 1.1f;
-        fixtureDefVertical.friction = 0.8f;
+        fixtureDefVertical.friction = 0.1f;
         PolygonShape polygonShape = new PolygonShape();
         polygonShape.setAsBox(2 , height/16 );
         fixtureDefVertical.shape = polygonShape;
 
         FixtureDef fixtureDefHorizontal = new FixtureDef();
         fixtureDefHorizontal.restitution = 1.1f;
-        fixtureDefHorizontal.friction = 0.8f;
+        fixtureDefHorizontal.friction = 0.1f;
         PolygonShape polygonShape2 = new PolygonShape();
         polygonShape2.setAsBox(3 * width / 16 , 2 );
         fixtureDefHorizontal.shape = polygonShape2;
@@ -197,7 +197,7 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         world.step(deltaTime, 6, 2);
 
         if (game.getBallToken().getX() < p1Goal) {
-            game.getPlayer2().scoreGoal();;
+            game.getPlayer2().scoreGoal();
             audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + game.getPlayer2().getScore(), width-100, height-20);
@@ -237,6 +237,7 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         if (game.currentPlayer().isBot() && game.atRest()) {
             game.makeBotMove();
         }
+
     }
 
     private void reset() {

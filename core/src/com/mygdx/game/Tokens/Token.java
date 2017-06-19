@@ -3,10 +3,7 @@ package com.mygdx.game.Tokens;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Token {
     private Vector2 initialPosition;
@@ -22,16 +19,24 @@ public abstract class Token {
 
     private Body createSoccerPlayer(World world, float x, float y, float radius) {
         Body pBody;
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(radius);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.restitution = 0.5f;
+        fixtureDef.friction = 0.15f;
+        fixtureDef.shape = circleShape;
+        fixtureDef.density = 0.05f;
+
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
         def.position.set(x, y);
-        def.linearDamping = 0.6f;
+        def.linearDamping = 0.3f;
         def.fixedRotation = true;
 
         pBody = world.createBody(def);
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(radius);
-        pBody.createFixture(circleShape, 1);
+        pBody.createFixture(fixtureDef);
         circleShape.dispose();
         return pBody;
     }
@@ -42,7 +47,7 @@ public abstract class Token {
     }
 
     public boolean atRest() {
-        return body.getLinearVelocity().epsilonEquals(0, 0, 3f);
+        return body.getLinearVelocity().epsilonEquals(0, 0, 5f);
     }
 
     public Vector2 getInitialPosition() {
