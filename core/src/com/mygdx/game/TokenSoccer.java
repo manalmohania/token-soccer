@@ -36,13 +36,6 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private Game game;
     private Audio audio;
 
-
-    /*
-    * The game will NOT work right now if player 1 is a bot. I'll make those changes later today.
-    * Also, right now it appears as if the bot is making a move simultaneously with the human. That will be fixed once
-    * Allen ensures that moves are made once the system is at rest
-    * */
-
     @Override
     public void create() {
         this.font = new BitmapFont();
