@@ -96,8 +96,8 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private void createPlayers(String name1, String name2) {
         // indicates if bot player
         game = new Game(
-                new HumanPlayer(name1, p1Tokens),
-                new RandomBot(name2, p2Tokens),
+                new RandomBot(name1, p1Tokens),
+                new HumanPlayer(name2, p2Tokens),
                 new BallToken(new Vector2(width / 4, height /4), world));
     }
 

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.mygdx.game.Players.BotPlayer;
 import com.mygdx.game.Tokens.PlayerToken;
 
 /**
@@ -14,6 +15,9 @@ public class Events implements InputProcessor {
 
     public Events(Game game) {
         this.game = game;
+        if (game.currentPlayer() instanceof BotPlayer) {
+            game.makeBotMove();
+        }
     }
 
     private PlayerToken contains(float x, float y) {

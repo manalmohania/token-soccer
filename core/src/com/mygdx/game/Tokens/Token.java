@@ -25,7 +25,7 @@ public abstract class Token {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.restitution = 0.5f;
-        fixtureDef.friction = 0.15f;
+        fixtureDef.friction = 0.4f;
         fixtureDef.shape = circleShape;
         fixtureDef.density = 0.05f;
 
