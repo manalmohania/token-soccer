@@ -2,6 +2,7 @@ package com.mygdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.mygdx.game.Screens.Launcher;
 import com.mygdx.game.TokenSoccer;
 
 public class DesktopLauncher {
@@ -10,7 +11,6 @@ public class DesktopLauncher {
 		config.title = "Token Soccer";
 		config.height = 480;
 		config.width = 640;
-		new LwjglApplication(new TokenSoccer(), config);
-		// new LwjglApplication(new Menu(new TokenSoccer()), config);
+		new LwjglApplication(new Launcher(), config);
 	}
 }
