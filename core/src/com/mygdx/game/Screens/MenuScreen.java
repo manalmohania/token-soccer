@@ -1,12 +1,8 @@
-package com.mygdx.game.desktop;
+package com.mygdx.game.Screens;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,30 +11,29 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.awt.*;
+import com.mygdx.game.TokenSoccer;
 
 /**
- * Created by allen on 14/06/17.
+ * Created by allen on 24/06/2017.
  */
-public class Menu extends ApplicationAdapter {
-
+public class MenuScreen implements Screen {
+    final Launcher game;
+    private OrthographicCamera camera;
     Stage stage;
     Skin skin;
-    float width;
-    float height;
-    Game game;
+    float width, height;
 
-    Menu(Game game) {
+    public MenuScreen (final Launcher game) {
         this.game = game;
-    }
-
-    @Override
-    public void create() {
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
         this.width = Gdx.graphics.getWidth();
         this.height = Gdx.graphics.getHeight();
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, width / 2, height / 2);
+
         createSkin();
         TextButton startGameButton = new TextButton("Start game", skin);
         startGameButton.setPosition(width/2, height/2);
@@ -46,8 +41,7 @@ public class Menu extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("button pressed");
-                //TODO Link up menu to game
-                //game.setScreen();
+                game.setScreen(new TokenSoccer(game));
             }
         });
         stage.addActor(startGameButton);
@@ -78,13 +72,32 @@ public class Menu extends ApplicationAdapter {
     }
 
     @Override
-    public void render() {
-        // For white background
-        //Gdx.gl.glClearColor(1,1,1,1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
 
         stage.act();
         stage.draw();
     }
-}
 
+    @Override
+    public void show() {}
+
+    @Override
+    public void resize(int width, int height) {}
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
+
+    @Override
+    public void dispose() {}
+}

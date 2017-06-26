@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +11,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Players.HumanPlayer;
 import com.mygdx.game.Players.RandomBot;
+import com.mygdx.game.Screens.Launcher;
 import com.mygdx.game.Tokens.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,7 +23,7 @@ import java.util.Random;
 // TODO - menus
 // TODO - network stuff - TCP
 
-public class TokenSoccer extends com.badlogic.gdx.Game {
+public class TokenSoccer implements Screen {
     private boolean DEBUG = false;
     private OrthographicCamera camera;
     private float width, height;  // these are world coordinates
@@ -31,13 +34,15 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     private ArrayList<PlayerToken> p2Tokens;
     private Random random = new Random();
     private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft;
-    private BitmapFont font;
-    private SpriteBatch batch;
+    public BitmapFont font;
+    public SpriteBatch batch;
     private Game game;
     private Audio audio;
+    private Launcher launcher;
 
-    @Override
-    public void create() {
+    public TokenSoccer(final Launcher launcher) {
+        this.launcher = launcher;
+
         this.font = new BitmapFont();
         this.batch = new SpriteBatch();
 
@@ -147,7 +152,7 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     }
 
     @Override
-    public void render() {
+    public void render(float delta) {
         update(Gdx.graphics.getDeltaTime());
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -244,9 +249,21 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
     }
 
     @Override
+    public void show() {}
+
+    @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, width / 2, height / 2);
     }
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
 
     @Override
     public void dispose() {
