@@ -77,8 +77,6 @@ public class TokenSoccer extends com.badlogic.gdx.Game {
         String name2 = "Bob2";
         createPlayers(name1, name2);
 
-
-
         Events eventHandler = new Events(game);
         Gdx.input.setInputProcessor(eventHandler);
 
