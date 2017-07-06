@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Players.HumanPlayer;
 import com.mygdx.game.Players.RandomBot;
 import com.mygdx.game.Screens.Launcher;
+import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Tokens.*;
 
 import java.util.ArrayList;
@@ -37,9 +38,9 @@ public class TokenSoccer implements Screen {
     private Audio audio;
     private Launcher launcher;
     private boolean gameOver = false;
-    private int countDown = 240;
+    private int countDown = 180;
 
-    public TokenSoccer(final Launcher launcher, boolean twoPlayer) {
+    public TokenSoccer(final Launcher launcher, boolean twoPlayer, Team team1, Team team2) {
         this.launcher = launcher;
         this.font = new BitmapFont();
         this.batch = new SpriteBatch();
@@ -64,11 +65,15 @@ public class TokenSoccer implements Screen {
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 - 50), "20", world));
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
+        if (team2 == null) {
+            team2 = team1 == Team.Spain ? Team.Italy : Team.Spain;
+        }
+
         String pathToTokens = "images/tokens/";
         String pathToField = "images/field/";
         ballTexture = new Texture(pathToTokens + "ball.png");
-        p1Texture = new Texture(pathToTokens + "spain-32.png");
-        p2Texture = new Texture(pathToTokens + "germany-32.png");
+        p1Texture = new Texture(Team.getResource(team1));
+        p2Texture = new Texture(Team.getResource(team2));
         woodHTexture = new Texture(pathToField + "wood-500x20.png");
         woodVTexture = new Texture(pathToField + "wood-20x140.png");
         fieldTexture = new Texture(pathToField + "field-480x360.png");
@@ -76,7 +81,7 @@ public class TokenSoccer implements Screen {
         goalLeft = new Texture(pathToField + "ugly-left-goal-60x100.png");
         yellow = new Texture(pathToField + "yellow.png");
 
-        createPlayers("Spain", "Germany", twoPlayer);
+        createPlayers("" + team1, "" + team2, twoPlayer);
 
         Events eventHandler = new Events(game);
         Gdx.input.setInputProcessor(eventHandler);
@@ -165,7 +170,8 @@ public class TokenSoccer implements Screen {
 
         if (gameOver) {
             if (countDown == 0) {
-                System.exit(0);
+                launcher.setScreen(new MenuScreen(launcher));
+                // also stop audio
             }
             countDown--;
             font.setColor(Color.RED);
@@ -212,7 +218,7 @@ public class TokenSoccer implements Screen {
 
         if (game.getBallToken().getX() < p1Goal) {
             game.getPlayer2().scoreGoal();
-            if (game.getPlayer2().getScore() >= 1) {
+            if (game.getPlayer2().getScore() >= 2) {
                 gameOver = true;
                 game.setWinner(game.getPlayer2());
             }
@@ -226,7 +232,7 @@ public class TokenSoccer implements Screen {
 
         if (game.getBallToken().getX() > p2Goal) {
             game.getPlayer1().scoreGoal();
-            if (game.getPlayer1().getScore() >= 1) {
+            if (game.getPlayer1().getScore() >= 2) {
                 gameOver = true;
                 game.setWinner(game.getPlayer1());
             }

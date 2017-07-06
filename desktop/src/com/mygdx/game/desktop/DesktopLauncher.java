@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.title = "Token Soccer";
 		config.height = 480;
 		config.width = 640;
+		config.resizable = false;
 		new LwjglApplication(new Launcher(), config);
 	}
 }
