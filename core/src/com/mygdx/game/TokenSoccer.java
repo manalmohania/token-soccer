@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,10 +18,6 @@ import com.mygdx.game.Tokens.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-// TODO - create the goal images
-// TODO - ensure that ball does not stick to side walls
-// TODO - some more refactoring
-// TODO - menus
 // TODO - network stuff - TCP
 
 public class TokenSoccer implements Screen {
@@ -33,16 +30,17 @@ public class TokenSoccer implements Screen {
     private ArrayList<PlayerToken> p1Tokens;
     private ArrayList<PlayerToken> p2Tokens;
     private Random random = new Random();
-    private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft;
-    public BitmapFont font;
-    public SpriteBatch batch;
+    private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft, yellow;
+    private BitmapFont font;
+    private SpriteBatch batch;
     private Game game;
     private Audio audio;
     private Launcher launcher;
+    private boolean gameOver = false;
+    private int countDown = 240;
 
-    public TokenSoccer(final Launcher launcher) {
+    public TokenSoccer(final Launcher launcher, boolean twoPlayer) {
         this.launcher = launcher;
-
         this.font = new BitmapFont();
         this.batch = new SpriteBatch();
 
@@ -76,11 +74,9 @@ public class TokenSoccer implements Screen {
         fieldTexture = new Texture(pathToField + "field-480x360.png");
         goalRight = new Texture(pathToField + "ugly-right-goal-60x100.png");
         goalLeft = new Texture(pathToField + "ugly-left-goal-60x100.png");
+        yellow = new Texture(pathToField + "yellow.png");
 
-        // Temporarily putting here
-        String name1 = "Bob";
-        String name2 = "Bob2";
-        createPlayers(name1, name2);
+        createPlayers("Spain", "Germany", twoPlayer);
 
         Events eventHandler = new Events(game);
         Gdx.input.setInputProcessor(eventHandler);
@@ -89,12 +85,19 @@ public class TokenSoccer implements Screen {
         audio.playBackgroundMusic();
     }
 
-    private void createPlayers(String name1, String name2) {
-        // indicates if bot player
-        game = new Game(
-                new RandomBot(name1, p1Tokens),
-                new HumanPlayer(name2, p2Tokens),
-                new BallToken(new Vector2(width / 4, height /4), world));
+    private void createPlayers(String name1, String name2, boolean twoPlayer) {
+        if (twoPlayer) {
+            game = new Game(
+                    new HumanPlayer(name1, p1Tokens),
+                    new HumanPlayer(name2, p2Tokens),
+                    new BallToken(new Vector2(width / 4, height / 4), world));
+        }
+        else {
+            game = new Game(
+                    new HumanPlayer(name1, p1Tokens),
+                    new RandomBot(name2, p2Tokens),
+                    new BallToken(new Vector2(width / 4, height / 4), world));
+        }
     }
 
     private void createBoundary(){
@@ -160,13 +163,28 @@ public class TokenSoccer implements Screen {
 
         b2dr.render(world, camera.combined);
 
+        if (gameOver) {
+            if (countDown == 0) {
+                System.exit(0);
+            }
+            countDown--;
+            font.setColor(Color.RED);
+            font.getData().setScale(2, 2);
+            batch.begin();
+            batch.draw(yellow, width / 2 - yellow.getWidth() / 2, height / 2 - yellow.getHeight() / 2);
+            font.draw(batch, game.getWinner().getName() + " wins!!!", width / 2 - 100, height / 2);
+            batch.end();
+            return;
+        }
+
         batch.begin();
         //TODO some function that correctly positions
-        font.draw(batch, game.getPlayer2().getName(), 0, height);
+        font.draw(batch, game.getPlayer1().getName(), 0, height);
         font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height-20);
         font.draw(batch, game.getPlayer2().getName(), width-100,height);
         font.draw(batch, "Score:" + game.getPlayer2().getScore(), width-100, height-20);
-        font.draw(batch, "Timer:" + game.getTimer().getTimeRemaining(), width/2 - 100, height);
+        font.draw(batch, "Timer:" + game.getTimer().getTimeRemaining(), width/2 - 50, height);
+        font.draw(batch, "Game ends at two goals", width/2 - 100, height - 20);
         batch.draw(fieldTexture, 2 * width / 4 - fieldTexture.getWidth()/2, 2 * height / 4 - fieldTexture.getHeight() / 2);
         batch.draw(goalRight, 2 * p2Goal, 2 * 2 * height / 8 - goalRight.getHeight()/2);
         batch.draw(goalLeft, 2 * p1Goal - goalLeft.getWidth(), 2 * 2 * height / 8 - goalRight.getHeight()/2);
@@ -194,20 +212,30 @@ public class TokenSoccer implements Screen {
 
         if (game.getBallToken().getX() < p1Goal) {
             game.getPlayer2().scoreGoal();
+            if (game.getPlayer2().getScore() >= 1) {
+                gameOver = true;
+                game.setWinner(game.getPlayer2());
+            }
             audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + game.getPlayer2().getScore(), width-100, height-20);
             batch.end();
             reset();
+            return;
         }
 
         if (game.getBallToken().getX() > p2Goal) {
             game.getPlayer1().scoreGoal();
+            if (game.getPlayer1().getScore() >= 1) {
+                gameOver = true;
+                game.setWinner(game.getPlayer1());
+            }
             audio.playGoalMusic();
             batch.begin();
             font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height-20);
             batch.end();
             reset();
+            return;
         }
 
         for (Token token : p1Tokens) {
@@ -281,5 +309,6 @@ public class TokenSoccer implements Screen {
         audio.dispose();
         goalLeft.dispose();
         goalRight.dispose();
+        launcher.dispose();
     }
 }

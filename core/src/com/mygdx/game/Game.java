@@ -11,6 +11,7 @@ public class Game {
     private BallToken ballToken;
     private boolean isP1Turn;
     private Timer timer;
+    private Player winner;
 
     Game(Player player1, Player player2, BallToken ballToken) {
         this.player1 = player1;
@@ -18,6 +19,7 @@ public class Game {
         this.ballToken = ballToken;
         this.isP1Turn = true;
         this.timer = new Timer();
+        winner = null;
     }
 
     public Player getPlayer2() {
@@ -43,6 +45,14 @@ public class Game {
     public void toggleTurns() {
         isP1Turn = !isP1Turn;
         timer.reset();
+    }
+
+    public Player getWinner(){
+        return winner;
+    }
+
+    public void setWinner(Player player){
+        winner = player;
     }
 
     public boolean atRest() {
