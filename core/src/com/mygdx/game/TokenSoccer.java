@@ -39,6 +39,7 @@ public class TokenSoccer implements Screen {
     private Launcher launcher;
     private boolean gameOver = false;
     private int countDown = 180;
+    private final int GOAL_THRESHOLD = 2;
 
     public TokenSoccer(final Launcher launcher, boolean twoPlayer, Team team1, Team team2) {
         this.launcher = launcher;
@@ -170,8 +171,8 @@ public class TokenSoccer implements Screen {
 
         if (gameOver) {
             if (countDown == 0) {
+                dispose();
                 launcher.setScreen(new MenuScreen(launcher));
-                // also stop audio
             }
             countDown--;
             font.setColor(Color.RED);
@@ -218,7 +219,7 @@ public class TokenSoccer implements Screen {
 
         if (game.getBallToken().getX() < p1Goal) {
             game.getPlayer2().scoreGoal();
-            if (game.getPlayer2().getScore() >= 2) {
+            if (game.getPlayer2().getScore() >= GOAL_THRESHOLD) {
                 gameOver = true;
                 game.setWinner(game.getPlayer2());
             }
@@ -232,7 +233,7 @@ public class TokenSoccer implements Screen {
 
         if (game.getBallToken().getX() > p2Goal) {
             game.getPlayer1().scoreGoal();
-            if (game.getPlayer1().getScore() >= 2) {
+            if (game.getPlayer1().getScore() >= GOAL_THRESHOLD) {
                 gameOver = true;
                 game.setWinner(game.getPlayer1());
             }
@@ -310,11 +311,11 @@ public class TokenSoccer implements Screen {
         woodVTexture.dispose();
         woodHTexture.dispose();
         fieldTexture.dispose();
-        Token.dispose();
-        PlayerToken.dispose();
-        audio.dispose();
+        audio.stopMusic();
         goalLeft.dispose();
         goalRight.dispose();
         launcher.dispose();
+        font.dispose();
+        yellow.dispose();
     }
 }

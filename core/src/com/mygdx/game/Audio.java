@@ -1,18 +1,19 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 /**
  * Created by allen on 16/06/17.
  */
 public class Audio {
-    private Sound backgroundMusic;
+    private Music backgroundMusic; // obtained from https://www.youtube.com/watch?v=UPgHA8EW6Go
     private Sound goalMusic;
 
     Audio() {
-        this.backgroundMusic = Gdx.audio.newSound(Gdx.files.internal("audio/meme.mp3"));
-        this.goalMusic = Gdx.audio.newSound(Gdx.files.internal("audio/meme2.mp3"));
+        this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/background.mp3"));
+        this.goalMusic = Gdx.audio.newSound(Gdx.files.internal("audio/goal-sound.mp3"));
     }
 
     public void playBackgroundMusic() {
@@ -20,10 +21,14 @@ public class Audio {
     }
 
     public void playGoalMusic() {
-        this.goalMusic.play();
+        this.goalMusic.loop();
     }
 
-    public void dispose() {
+    public void stopMusic() {
+        if (backgroundMusic.isPlaying()) {
+            backgroundMusic.stop();
+        }
+        goalMusic.stop();
         backgroundMusic.dispose();
         goalMusic.dispose();
     }
