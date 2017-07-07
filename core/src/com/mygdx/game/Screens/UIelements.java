@@ -15,10 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
  */
 public class UIelements {
 
-    private static int width = Gdx.graphics.getWidth();
-    private static BitmapFont font = new BitmapFont();
+    private int width = Gdx.graphics.getWidth();
+    private BitmapFont font = new BitmapFont();
 
-    public static Skin createSkin() {
+    public Skin createSkin() {
         // Texture
         Skin skin = new Skin();
         Pixmap pixmap = new Pixmap(width/4, width/4, Pixmap.Format.RGB888);
@@ -43,7 +43,7 @@ public class UIelements {
         return skin;
     }
 
-    public static void dispose(){
+    public void dispose(){
         font.dispose();
     }
 }

@@ -23,6 +23,7 @@ public class MenuScreen implements Screen {
     private float width, height;
     private Batch batch;
     private Texture logo, man;
+    private UIelements uIelements = new UIelements();
 
     public MenuScreen (final Launcher game) {
         this.game = game;
@@ -37,7 +38,7 @@ public class MenuScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        skin = UIelements.createSkin();
+        skin = uIelements.createSkin();
         TextButton singlePlayer = new TextButton("Single Player", skin);
         singlePlayer.setPosition(0, height/3);
         singlePlayer.addListener(new ClickListener() {
@@ -102,6 +103,6 @@ public class MenuScreen implements Screen {
         logo.dispose();
         man.dispose();
         batch.dispose();
-        UIelements.dispose();
+        uIelements.dispose();
     }
 }

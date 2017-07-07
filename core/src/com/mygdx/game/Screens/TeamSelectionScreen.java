@@ -37,6 +37,8 @@ public class TeamSelectionScreen implements Screen{
     private BitmapFont font;
     private ImageButton selectedButton;
     private char selectedTeam;
+    private boolean teamError = false;
+    private UIelements uIelements = new UIelements();
 
     /*
     * code -> "1 or 2" + "1 or 2" + "X or S or I or E or G" --> number of players + current player number
@@ -62,41 +64,17 @@ public class TeamSelectionScreen implements Screen{
 
         batch = new SpriteBatch();
 
-        skin = UIelements.createSkin();
+        skin = uIelements.createSkin();
         font = new BitmapFont();
 
         final ImageButton spainButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(spain)));
-        spainButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                selectedButton = spainButton;
-                selectedTeam = 'S';
-            }
-        });
+        spainButton.addListener(teamClickListener('S', spainButton));
         final ImageButton germanyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(germany)));
-        germanyButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                selectedButton = germanyButton;
-                selectedTeam = 'G';
-            }
-        });
+        germanyButton.addListener(teamClickListener('G', germanyButton));
         final ImageButton italyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(italy)));
-        italyButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                selectedButton = italyButton;
-                selectedTeam = 'I';
-            }
-        });
+        italyButton.addListener(teamClickListener('I', italyButton));
         final ImageButton englandButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(england)));
-        englandButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                selectedButton = englandButton;
-                selectedTeam = 'E';
-            }
-        });
+        englandButton.addListener(teamClickListener('E', englandButton));
 
         selectedTeam = code.charAt(2) == 'S' ? 'E' : 'S';
         selectedButton = code.charAt(2) == 'S' ? englandButton : spainButton;
@@ -121,7 +99,6 @@ public class TeamSelectionScreen implements Screen{
                 else {
                     game.setScreen(new TeamSelectionScreen(game, "22" + selectedTeam));
                 }
-                // game.setScreen(new TokenSoccer(game, false));
             }
         });
         stage.addActor(continueButton);
@@ -155,6 +132,17 @@ public class TeamSelectionScreen implements Screen{
         stage.draw();
     }
 
+    private ClickListener teamClickListener(final char team, final ImageButton teamButton){
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x1, float y) {
+                selectedButton = teamButton;
+                selectedTeam = team;
+                teamError = false;
+            }
+        };
+    }
+
     @Override
     public void resize(int width, int height) {
 
@@ -178,7 +166,7 @@ public class TeamSelectionScreen implements Screen{
     @Override
     public void dispose() {
         stage.dispose();
-        UIelements.dispose();
+        uIelements.dispose();
         logo.dispose();
         font.dispose();
         stage.dispose();

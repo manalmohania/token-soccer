@@ -39,7 +39,6 @@ public class TokenSoccer implements Screen {
     private Launcher launcher;
     private boolean gameOver = false;
     private int countDown = 180;
-    private final int GOAL_THRESHOLD = 2;
 
     public TokenSoccer(final Launcher launcher, boolean twoPlayer, Team team1, Team team2) {
         this.launcher = launcher;
@@ -66,6 +65,9 @@ public class TokenSoccer implements Screen {
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 - 50), "20", world));
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
+        if (team2.equals(team1)) {
+            team2 = null;
+        }
         if (team2 == null) {
             team2 = team1 == Team.Spain ? Team.Italy : Team.Spain;
         }
@@ -111,7 +113,7 @@ public class TokenSoccer implements Screen {
         fixtureDefVertical.restitution = 1.1f;
         fixtureDefVertical.friction = 0.1f;
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(2 , height/16 );
+        polygonShape.setAsBox(2 , height/16);
         fixtureDefVertical.shape = polygonShape;
 
         FixtureDef fixtureDefHorizontal = new FixtureDef();
@@ -171,7 +173,7 @@ public class TokenSoccer implements Screen {
 
         if (gameOver) {
             if (countDown == 0) {
-                dispose();
+                nonStaticDispose();
                 launcher.setScreen(new MenuScreen(launcher));
             }
             countDown--;
@@ -217,6 +219,7 @@ public class TokenSoccer implements Screen {
     private void update(float deltaTime) {
         world.step(deltaTime, 6, 2);
 
+        int GOAL_THRESHOLD = 2;
         if (game.getBallToken().getX() < p1Goal) {
             game.getPlayer2().scoreGoal();
             if (game.getPlayer2().getScore() >= GOAL_THRESHOLD) {
@@ -302,6 +305,16 @@ public class TokenSoccer implements Screen {
 
     @Override
     public void dispose() {
+        nonStaticDispose();
+        staticDispose();
+    }
+
+    private void staticDispose(){
+        Token.dispose();
+        PlayerToken.dispose();
+    }
+
+    private void nonStaticDispose(){
         world.dispose();
         b2dr.dispose();
         batch.dispose();
