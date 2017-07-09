@@ -37,8 +37,7 @@ public class TeamSelectionScreen implements Screen{
     private BitmapFont font;
     private ImageButton selectedButton;
     private char selectedTeam;
-    private boolean teamError = false;
-    private UIelements uIelements = new UIelements();
+    private UIElements UIElements = new UIElements();
 
     /*
     * code -> "1 or 2" + "1 or 2" + "X or S or I or E or G" --> number of players + current player number
@@ -64,7 +63,7 @@ public class TeamSelectionScreen implements Screen{
 
         batch = new SpriteBatch();
 
-        skin = uIelements.createSkin();
+        skin = UIElements.createSkin();
         font = new BitmapFont();
 
         final ImageButton spainButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(spain)));
@@ -90,7 +89,7 @@ public class TeamSelectionScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (code.charAt(0) == '1') {
-                    game.setScreen(new TokenSoccer(game, false, Team.getTeamFromChar(selectedTeam), null));
+                    game.setScreen(new TokenSoccer(game, false, Team.getTeamFromChar(selectedTeam), Team.getTeamFromChar(selectedTeam)));
                 }
                 else if(code.charAt(0) == '2' && code.charAt(1) == '2') {
                     // TODO: handle the case when the two teams selected are the same
@@ -138,7 +137,6 @@ public class TeamSelectionScreen implements Screen{
             public void clicked(InputEvent event, float x1, float y) {
                 selectedButton = teamButton;
                 selectedTeam = team;
-                teamError = false;
             }
         };
     }
@@ -166,7 +164,7 @@ public class TeamSelectionScreen implements Screen{
     @Override
     public void dispose() {
         stage.dispose();
-        uIelements.dispose();
+        UIElements.dispose();
         logo.dispose();
         font.dispose();
         stage.dispose();
@@ -175,5 +173,6 @@ public class TeamSelectionScreen implements Screen{
         england.dispose();
         germany.dispose();
         italy.dispose();
+        skin.dispose();
     }
 }

@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 /**
  * Created by manalmohania on 6/7/17.
  */
-public class UIelements {
+public class UIElements {
 
     private int width = Gdx.graphics.getWidth();
     private BitmapFont font = new BitmapFont();

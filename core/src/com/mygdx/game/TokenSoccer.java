@@ -66,12 +66,9 @@ public class TokenSoccer implements Screen {
         p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
         if (team2.equals(team1)) {
-            team2 = null;
-        }
-        if (team2 == null) {
             team2 = team1 == Team.Spain ? Team.Italy : Team.Spain;
         }
-
+        
         String pathToTokens = "images/tokens/";
         String pathToField = "images/field/";
         ballTexture = new Texture(pathToTokens + "ball.png");
