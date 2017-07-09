@@ -22,7 +22,6 @@ import java.util.Random;
 // TODO - network stuff - TCP
 
 public class TokenSoccer implements Screen {
-    private boolean DEBUG = false;
     private OrthographicCamera camera;
     private float width, height;  // these are world coordinates
     private float p1Goal, p2Goal; // so are these
@@ -68,7 +67,7 @@ public class TokenSoccer implements Screen {
         if (team2.equals(team1)) {
             team2 = team1 == Team.Spain ? Team.Italy : Team.Spain;
         }
-        
+
         String pathToTokens = "images/tokens/";
         String pathToField = "images/field/";
         ballTexture = new Texture(pathToTokens + "ball.png");
