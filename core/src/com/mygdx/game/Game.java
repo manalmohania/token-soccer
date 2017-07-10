@@ -5,7 +5,7 @@ import com.mygdx.game.Players.RandomBot;
 import com.mygdx.game.Tokens.BallToken;
 import com.mygdx.game.Tokens.PlayerToken;
 
-public class Game {
+class Game {
     private Player player1;
     private Player player2;
     private BallToken ballToken;
@@ -22,40 +22,40 @@ public class Game {
         winner = null;
     }
 
-    public Player getPlayer2() {
+    Player getPlayer2() {
         return player2;
     }
 
-    public Player getPlayer1() {
+    Player getPlayer1() {
         return player1;
     }
 
-    public BallToken getBallToken() {
+    BallToken getBallToken() {
         return ballToken;
     }
 
-    public Timer getTimer() {
+    Timer getTimer() {
         return timer;
     }
 
-    public Player currentPlayer() {
+    Player currentPlayer() {
         return isP1Turn ? player1 : player2;
     }
 
-    public void toggleTurns() {
+    void toggleTurns() {
         isP1Turn = !isP1Turn;
         timer.reset();
     }
 
-    public Player getWinner(){
+    Player getWinner(){
         return winner;
     }
 
-    public void setWinner(Player player){
+    void setWinner(Player player){
         winner = player;
     }
 
-    public boolean atRest() {
+    boolean atRest() {
         // TODO make system rest faster
         // Check that the ball is stationary
         if (!ballToken.atRest()) return false;
@@ -79,12 +79,12 @@ public class Game {
         }
     }
 
-    public void makeMove(String tokenId, float lastX, float lastY, float releaseX, float releaseY) {
+    void makeMove(String tokenId, float lastX, float lastY, float releaseX, float releaseY) {
         currentPlayer().makeMove(tokenId, lastX, lastY, releaseX, releaseY);
         toggleTurns();
     }
 
-    public void makeBotMove() {
+    void makeBotMove() {
         RandomBot randomBot = (RandomBot) currentPlayer();
         randomBot.makeMove();
         toggleTurns();

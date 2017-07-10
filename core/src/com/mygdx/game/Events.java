@@ -5,19 +5,18 @@ import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.Players.BotPlayer;
 import com.mygdx.game.Tokens.PlayerToken;
 
-/**
- * Created by manalmohania on 13/6/17.
- */
-public class Events implements InputProcessor {
+class Events implements InputProcessor {
     private Game game;
     private float lastX, lastY;
     private PlayerToken lastToken;
+    private int height;
 
-    public Events(Game game) {
+    Events(Game game) {
         this.game = game;
         if (game.currentPlayer() instanceof BotPlayer) {
             game.makeBotMove();
         }
+        height = Gdx.graphics.getHeight();
     }
 
     private PlayerToken contains(float x, float y) {
@@ -32,10 +31,19 @@ public class Events implements InputProcessor {
         return null;
     }
 
+    /**
+     * Called when the screen was touched or a mouse button was pressed.
+     *
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         float x = Gdx.input.getX();
-        float y = Gdx.graphics.getHeight() - Gdx.input.getY();
+        float y = height - Gdx.input.getY();
         // the next line is a bit of a hack and might not always work
         PlayerToken body = contains(x / 2, y / 2);
         lastX = x / 2;
@@ -51,8 +59,8 @@ public class Events implements InputProcessor {
     /**
      * Called when a finger was lifted or a mouse button was released.
      *
-     * @param screenX
-     * @param screenY
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
      * @param pointer the pointer for the event.
      * @param button  the button   @return whether the input was processed
      */
@@ -64,9 +72,8 @@ public class Events implements InputProcessor {
 
         if (lastToken == null) return false;
         float releaseX = Gdx.input.getX() / 2;
-        float releaseY = (Gdx.graphics.getHeight() - Gdx.input.getY()) / 2;
+        float releaseY = (height - Gdx.input.getY()) / 2;
         if (releaseX - lastX == 0 || ((releaseX - lastX) * (releaseX - lastX) + (releaseY - lastY) * (releaseY - lastY)) < 1) {
-            System.out.println("returning from here");
             return false;
         }
         game.makeMove(lastToken.getTokenID(), lastX, lastY, releaseX, releaseY);
@@ -77,8 +84,8 @@ public class Events implements InputProcessor {
     /**
      * Called when a finger or the mouse was dragged.
      *
-     * @param screenX
-     * @param screenY
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
      * @param pointer the pointer for the event.  @return whether the input was processed
      */
     @Override
@@ -89,8 +96,8 @@ public class Events implements InputProcessor {
     /**
      * Called when the mouse was moved without any buttons being pressed. Will not be called on iOS.
      *
-     * @param screenX
-     * @param screenY
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
      * @return whether the input was processed
      */
     @Override
@@ -142,13 +149,4 @@ public class Events implements InputProcessor {
         return false;
     }
 
-    /**
-     * Called when the screen was touched or a mouse button was pressed.
-     *
-     * @param screenX The x coordinate, origin is in the upper left corner
-     * @param screenY The y coordinate, origin is in the upper left corner
-     * @param pointer the pointer for the event.
-     * @param button  the button
-     * @return whether the input was processed
-     */
 }

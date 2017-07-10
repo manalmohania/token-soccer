@@ -20,10 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.Team;
 import com.mygdx.game.TokenSoccer;
 
-/**
- * Created by manalmohania on 6/7/17.
- */
-public class TeamSelectionScreen implements Screen{
+class TeamSelectionScreen implements Screen{
 
     private final Launcher game;
     private Stage stage;
@@ -43,7 +40,7 @@ public class TeamSelectionScreen implements Screen{
     * code -> "1 or 2" + "1 or 2" + "X or S or I or E or G" --> number of players + current player number
     * */
 
-    public TeamSelectionScreen(final Launcher game, final String code) {
+    TeamSelectionScreen(final Launcher game, final String code) {
         this.code = code;
         this.game = game;
         stage = new Stage();

@@ -5,7 +5,7 @@ import com.mygdx.game.Tokens.PlayerToken;
 import java.util.List;
 
 public abstract class BotPlayer extends Player {
-    public BotPlayer(String name, List<PlayerToken> tokens) {
+    BotPlayer(String name, List<PlayerToken> tokens) {
         super(name, tokens);
     }
 

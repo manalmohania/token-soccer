@@ -1,8 +1,5 @@
 package com.mygdx.game;
 
-/**
- * Created by manalmohania on 6/7/17.
- */
 public enum Team {
     Spain, Germany, Italy, England;
 

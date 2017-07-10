@@ -11,9 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-/**
- * Created by allen on 24/06/2017.
- */
 public class MenuScreen implements Screen {
     private final Launcher game;
     private OrthographicCamera camera;

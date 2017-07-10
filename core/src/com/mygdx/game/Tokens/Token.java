@@ -11,7 +11,7 @@ public abstract class Token {
     private Body body;
     static Texture background = new Texture("images/tokens/ring-33.png");
 
-    public Token(Vector2 initialPosition, float radius, World world) {
+    Token(Vector2 initialPosition, float radius, World world) {
         this.initialPosition = initialPosition;
         this.radius = radius;
         this.body = createSoccerPlayer(world, initialPosition.x, initialPosition.y, radius);

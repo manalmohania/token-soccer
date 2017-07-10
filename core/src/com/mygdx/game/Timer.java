@@ -2,26 +2,26 @@ package com.mygdx.game;
 
 import java.text.DecimalFormat;
 
-public class Timer {
+class Timer {
     private static final int TIME_LIMIT = 50;
     private double initialTime;
     private DecimalFormat df;
     private boolean isRunning;
 
-    public Timer() {
+    Timer() {
         this.initialTime = System.nanoTime();
         this.df = new DecimalFormat("#.00");
         this.isRunning = true;
     }
 
-    public void start() {
+    void start() {
         if (!isRunning) {
             this.initialTime = System.nanoTime();
             this.isRunning = true;
         }
     }
 
-    public void reset() {
+    void reset() {
         this.isRunning = false;
     }
 
@@ -29,7 +29,7 @@ public class Timer {
         return isRunning ? getSeconds(System.nanoTime() - initialTime) : 0;
     }
 
-    public String getTimeRemaining() {
+    String getTimeRemaining() {
         return df.format(TIME_LIMIT - getTimeElapsed());
     }
 
@@ -37,7 +37,7 @@ public class Timer {
         return nanoseconds / 1E9;
     }
 
-    public boolean expired() {
+    boolean expired() {
         return this.getTimeElapsed() < TIME_LIMIT;
     }
 }

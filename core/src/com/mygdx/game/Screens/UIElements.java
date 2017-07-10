@@ -10,15 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
-/**
- * Created by manalmohania on 6/7/17.
- */
-public class UIElements {
+class UIElements {
 
     private int width = Gdx.graphics.getWidth();
     private BitmapFont font = new BitmapFont();
 
-    public Skin createSkin() {
+    Skin createSkin() {
         // Texture
         Skin skin = new Skin();
         Pixmap pixmap = new Pixmap(width/4, width/4, Pixmap.Format.RGB888);
@@ -43,7 +40,7 @@ public class UIElements {
         return skin;
     }
 
-    public void dispose(){
+    void dispose(){
         font.dispose();
     }
 }
