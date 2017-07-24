@@ -18,7 +18,7 @@ class Audio {
     }
 
     void playGoalMusic() {
-        this.goalMusic.loop();
+        this.goalMusic.play();
     }
 
     void stopMusic() {

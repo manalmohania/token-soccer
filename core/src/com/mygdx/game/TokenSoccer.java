@@ -10,13 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.Players.HumanPlayer;
-import com.mygdx.game.Players.RandomBot;
 import com.mygdx.game.Screens.Launcher;
 import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Tokens.*;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 // TODO - network stuff - TCP
@@ -27,8 +24,6 @@ public class TokenSoccer implements Screen {
     private float p1Goal, p2Goal; // so are these
     private World world;
     private Box2DDebugRenderer b2dr;
-    private ArrayList<PlayerToken> p1Tokens;
-    private ArrayList<PlayerToken> p2Tokens;
     private Random random = new Random();
     private Texture ballTexture, p1Texture, p2Texture, woodHTexture, woodVTexture, fieldTexture, goalRight, goalLeft, yellow;
     private BitmapFont font;
@@ -56,13 +51,6 @@ public class TokenSoccer implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         createBoundary();
-        p1Tokens = new ArrayList<PlayerToken>();
-        p1Tokens.add(new PlayerToken(new Vector2(width / 4 - 50, height / 4 - 50), "10", world));
-        p1Tokens.add(new PlayerToken(new Vector2(width / 4 - 50, height / 4 + 50), "11", world));
-
-        p2Tokens = new ArrayList<PlayerToken>();
-        p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 - 50), "20", world));
-        p2Tokens.add(new PlayerToken(new Vector2(width / 4 + 50, height / 4 + 50), "21", world));
 
         if (team2.equals(team1)) {
             team2 = team1 == Team.Spain ? Team.Italy : Team.Spain;
@@ -80,28 +68,13 @@ public class TokenSoccer implements Screen {
         goalLeft = new Texture(pathToField + "ugly-left-goal-60x100.png");
         yellow = new Texture(pathToField + "yellow.png");
 
-        createPlayers("" + team1, "" + team2, twoPlayer);
+        game = GameFactory.createGame(0, "" + team1, "" + team2, twoPlayer, world);
 
         Events eventHandler = new Events(game);
         Gdx.input.setInputProcessor(eventHandler);
 
         this.audio = new Audio();
         audio.playBackgroundMusic();
-    }
-
-    private void createPlayers(String name1, String name2, boolean twoPlayer) {
-        if (twoPlayer) {
-            game = new Game(
-                    new HumanPlayer(name1, p1Tokens),
-                    new HumanPlayer(name2, p2Tokens),
-                    new BallToken(new Vector2(width / 4, height / 4), world));
-        }
-        else {
-            game = new Game(
-                    new HumanPlayer(name1, p1Tokens),
-                    new RandomBot(name2, p2Tokens),
-                    new BallToken(new Vector2(width / 4, height / 4), world));
-        }
     }
 
     private void createBoundary(){
@@ -183,7 +156,6 @@ public class TokenSoccer implements Screen {
         }
 
         batch.begin();
-        //TODO some function that correctly positions
         font.draw(batch, game.getPlayer1().getName(), 0, height);
         font.draw(batch, "Score:" + game.getPlayer1().getScore(), 0, height-20);
         font.draw(batch, game.getPlayer2().getName(), width-100,height);
@@ -244,13 +216,13 @@ public class TokenSoccer implements Screen {
             return;
         }
 
-        for (Token token : p1Tokens) {
+        for (Token token : game.getPlayer1().getTokens()) {
             if (token.getX() < p1Goal || token.getX() > p2Goal) {
                 token.changePosition(p1Goal + random.nextFloat() * (p2Goal - p1Goal), random.nextFloat() * (6 * height / 16) + height / 16);
             }
         }
 
-        for (Token token : p2Tokens) {
+        for (Token token : game.getPlayer2().getTokens()) {
             if (token.getX() < p1Goal || token.getX() > p2Goal) {
                 token.changePosition(p1Goal + random.nextFloat() * (p2Goal - p1Goal), random.nextFloat() * (6 * height / 16) + height / 16);
             }
@@ -275,8 +247,8 @@ public class TokenSoccer implements Screen {
                 game.getBallToken().getInitialPosition().x,
                 game.getBallToken().getInitialPosition().y);
         for (int i = 0; i < 2; i++) {
-            Token p1 = p1Tokens.get(i);
-            Token p2 = p2Tokens.get(i);
+            Token p1 = game.getPlayer1().getTokens().get(i);
+            Token p2 = game.getPlayer2().getTokens().get(i);
             p1.changePosition(p1.getInitialPosition().x, p1.getInitialPosition().y);
             p2.changePosition(p2.getInitialPosition().x, p2.getInitialPosition().y);
         }
@@ -308,6 +280,7 @@ public class TokenSoccer implements Screen {
     private void staticDispose(){
         Token.dispose();
         PlayerToken.dispose();
+        launcher.dispose();
     }
 
     private void nonStaticDispose(){
@@ -323,7 +296,6 @@ public class TokenSoccer implements Screen {
         audio.stopMusic();
         goalLeft.dispose();
         goalRight.dispose();
-        launcher.dispose();
         font.dispose();
         yellow.dispose();
     }
