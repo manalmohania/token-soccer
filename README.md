@@ -2,4 +2,6 @@
 a 2d soccer game
 
 ***
-Under Development
+Token soccer is a 2d soccer game made using the `LibGDX` framework and `Box2D` for the physics. 
+
+The game is currenty under development.
